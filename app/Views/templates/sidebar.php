@@ -40,7 +40,7 @@
         <li class="nav-item">
             <a class="nav-link" href="<?= base_url('/home/anggota'); ?>">
                 <i class="fas fa-fw fa-list"></i>
-                <span>List Anggota</span></a>
+                <span>List Mahasiswa</span></a>
         </li>
 
         <!-- Nav Item - Peminjaman -->
