@@ -6,12 +6,12 @@
 
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">List Anggota</h6>
+            <h6 class="m-0 font-weight-bold text-primary">List Mahasiswa</h6>
         </div>
         <div class="card-body">
 
             <!-- tombol tambah anggota -->
-            <a href="<?= base_url(); ?>/home/addanggota" class="btn btn-primary">Tambah Anggota</a>
+            <a href="<?= base_url(); ?>/home/addanggota" class="btn btn-primary">Tambah Mahasiswa</a>
             <br><br>
 
             <!-- tampilkan info jika ada -->
@@ -25,8 +25,8 @@
             <table class="table table-bordered">
                 <tr>
                     <th>No</th>
-                    <th>Kode Anggota</th>
-                    <th>Nama Anggota</th>
+                    <th>NRP</th>
+                    <th>Nama Mahasiswa</th>
                     <th>Action</th>
                 </tr>
                 <?php

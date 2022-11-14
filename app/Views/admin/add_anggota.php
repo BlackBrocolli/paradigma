@@ -6,7 +6,7 @@
 
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Tambah Anggota</h6>
+            <h6 class="m-0 font-weight-bold text-primary">Tambah Mahasiswa</h6>
         </div>
 
         <div class="card-body">
@@ -22,7 +22,7 @@
             <?= form_open('/home/createanggota') ?>
 
             <div class="mb-3">
-                <label for="exampleFormControlInput1" class="form-label">Nama Anggota</label>
+                <label for="exampleFormControlInput1" class="form-label">Nama Mahasiswa</label>
                 <input class="form-control" type="text" value="" name="nama_anggota">
             </div>
 

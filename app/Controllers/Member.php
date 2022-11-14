@@ -11,9 +11,9 @@ class Member extends BaseController
         if (session()->get('level') !== 'admin') { // jika bukan admin
             return redirect()->back();
         }
-        $data['title'] = 'List Anggota';
+        $data['title'] = 'List Mahasiswa';
         $anggota = new AnggotaModel();
-        $data['anggota'] = $anggota->orderBy('kode_anggota', 'asc')->paginate(5);
+        $data['anggota'] = $anggota->orderBy('nrp', 'asc')->paginate(5);
         $data['pager'] = $anggota->pager;
         $data['nomor'] = nomor($this->request->getVar('page'), 5);
         return view('admin/list_anggota', $data);
