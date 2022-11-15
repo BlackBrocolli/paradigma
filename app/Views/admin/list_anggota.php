@@ -27,6 +27,8 @@
                     <th>No</th>
                     <th>NRP</th>
                     <th>Nama Mahasiswa</th>
+                    <th>Prodi</th>
+                    <th>Angkatan</th>
                     <th>Action</th>
                 </tr>
                 <?php
@@ -34,11 +36,13 @@
                 foreach ($anggota as $row) : ?>
                     <tr>
                         <td><?php echo $nomor++; ?></td>
-                        <td><?php echo $row->kode_anggota; ?></td>
-                        <td><?php echo $row->nama_anggota; ?></td>
+                        <td><?php echo $row->nrp; ?></td>
+                        <td><?php echo $row->nama; ?></td>
+                        <td><?php echo $row->prodi; ?></td>
+                        <td><?php echo $row->angkatan; ?></td>
                         <td>
-                            <a title="Update" class="btn btn-warning" href="<?= base_url(); ?>/home/editanggota/<?= $row->kode_anggota; ?>"><i class="fas fa-fw fa-pen"></i></a>
-                            <a title="Delete" class="btn btn-danger" href="<?= base_url(); ?>/home/deleteanggota/<?= $row->kode_anggota; ?>"><i class="fas fa-fw fa-trash"></i></a>
+                            <a title="Update" class="btn btn-warning" href="<?= base_url(); ?>/home/editanggota/<?= $row->nrp; ?>"><i class="fas fa-fw fa-pen"></i></a>
+                            <a title="Delete" class="btn btn-danger" href="<?= base_url(); ?>/home/deleteanggota/<?= $row->nrp; ?>"><i class="fas fa-fw fa-trash"></i></a>
                         </td>
                     </tr>
                 <?php endforeach; ?>
