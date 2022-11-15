@@ -22,8 +22,25 @@
             <?= form_open('/home/createanggota') ?>
 
             <div class="mb-3">
-                <label for="exampleFormControlInput1" class="form-label">Nama Mahasiswa</label>
-                <input class="form-control" type="text" value="" name="nama_anggota">
+                <label for="nama_mahasiswa" class="form-label">Nama Mahasiswa</label>
+                <input class="form-control" type="text" value="" name="nama_mahasiswa" autocomplete="off">
+            </div>
+
+            <div class="mb-3">
+                <div class="form-group">
+                    <label for="select_prodi">Program Studi</label>
+                    <select class="form-control" id="select_prodi" name="select_prodi">
+                        <option value="Teknik Informatika">Teknik Informatika</option>
+                        <option value="Manajemen Informatika">Manajemen Informatika</option>
+                        <option value="Sistem Informasi">Sistem Informasi</option>
+                        <option value="Desain Komunikasi Visual">Desain Komunikasi Visual</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="angkatan" class="form-label">Angkatan</label>
+                <input class="form-control" type="text" value="" name="angkatan" autocomplete="off">
             </div>
 
             <button class="btn btn-primary">Save</button>
