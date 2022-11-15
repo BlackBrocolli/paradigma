@@ -45,10 +45,10 @@
                                 <button class="btn btn-primary btn-login text-uppercase fw-bold" type="submit">Log
                                     in</button>
                             </div>
-                            <hr class="my-4">
-                            <div class="text-center">
+                            <!-- <hr class="my-4"> -->
+                            <!-- <div class="text-center">
                                 <a class="small" href="<?= base_url(); ?>/register">Create an Account!</a>
-                            </div>
+                            </div> -->
 
                         </form>
                     </div>
