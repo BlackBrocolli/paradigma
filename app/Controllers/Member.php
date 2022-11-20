@@ -24,7 +24,7 @@ class Member extends BaseController
         if (session()->get('level') !== 'admin') { // jika bukan admin
             return redirect()->back();
         }
-        $data['title'] = 'Tambah Anggota';
+        $data['title'] = 'Tambah Mahasiswa';
         return view('admin/add_anggota', $data);
     }
 
@@ -32,11 +32,35 @@ class Member extends BaseController
     {
         $anggota = new AnggotaModel();
 
+        $prodi = $this->request->getPost("select_prodi");
+        $angkatan = $this->request->getPost("angkatan");
+
+        // mengatur nrp otomatis sesuai angkatan dan prodi
+        $nrp = substr($angkatan, 2);
+
+        if ($prodi == "Teknik Informatika") {
+            $nrp = $nrp . "1111";
+        } else if ($prodi == "Manajemen Informatika") {
+            $nrp = $nrp . "1221";
+        } else if ($prodi == "Sistem Informasi") {
+            $nrp = $nrp . "1131";
+        } else {
+            $nrp = $nrp . "2111";
+        }
+
+        // random 3 digit
+        $digits = 3;
+        $nrp = $nrp . str_pad(rand(0, pow(10, $digits) - 1), $digits, '0', STR_PAD_LEFT);
+
         $result = $anggota->insert([
-            'nama_anggota' => $this->request->getPost("nama_anggota"),
+            'nrp' => $nrp,
+            'nama' => $this->request->getPost("nama_mahasiswa"),
+            'prodi' => $prodi,
+            'angkatan' => $angkatan,
         ]);
 
-        if ($this->request->getPost("nama_anggota") == "") {
+        // cek apakah ada field kosong
+        if ($this->request->getPost("nama_mahasiswa") == "" || $this->request->getPost("angkatan") == "") {
             return redirect()->back()
                 ->with('errors', $anggota->errors());
         }

@@ -1,11 +1,11 @@
-<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion toggled" id="accordionSidebar">
 
     <!-- Sidebar - Brand -->
     <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
         <div class="sidebar-brand-icon rotate-n-15">
             <i class="fas fa-folder-open"></i>
         </div>
-        <div class="sidebar-brand-text mx-3">PemWeb 2</div>
+        <div class="sidebar-brand-text mx-3">Perpustakaan STIKI</div>
     </a>
 
     <!-- Divider -->
@@ -13,34 +13,48 @@
 
     <!-- Nav Item - Dashboard -->
     <li class="nav-item">
-        <a class="nav-link" href="<?= base_url(); ?>/home">
+        <a class="nav-link" href="#">
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>Dashboard</span></a>
     </li>
 
     <!-- Divider -->
-    <hr class="sidebar-divider">
+    <!-- <hr class="sidebar-divider"> -->
 
     <!-- tampilkan hanya jika levelnya admin -->
     <?php if (session()->get('level') == 'admin') : ?>
 
         <!-- Heading -->
-        <div class="sidebar-heading">
+        <!-- <div class="sidebar-heading">
             Admin
-        </div>
+        </div> -->
 
-        <!-- Nav Item - Tambah buku -->
+        <!-- Nav Item - buku -->
         <li class="nav-item">
-            <a class="nav-link" href="<?= base_url('/home/addbuku'); ?>">
-                <i class="fas fa-fw fa-plus"></i>
-                <span>Tambah Buku</span></a>
+            <a class="nav-link" href="<?= base_url(); ?>/home">
+                <i class="fas fa-fw fa-book"></i>
+                <span>Buku</span></a>
         </li>
 
-        <!-- Nav Item - List anggota -->
+        <!-- Nav Item - List mahasiswa -->
         <li class="nav-item">
             <a class="nav-link" href="<?= base_url('/home/anggota'); ?>">
-                <i class="fas fa-fw fa-list"></i>
-                <span>List Mahasiswa</span></a>
+                <i class="fas fa-fw fa-graduation-cap"></i>
+                <span>Mahasiswa</span></a>
+        </li>
+
+        <!-- Nav Item - pengunjung -->
+        <li class="nav-item">
+            <a class="nav-link" href="#">
+                <i class="fas fa-fw fa-user"></i>
+                <span>Pengunjung</span></a>
+        </li>
+
+        <!-- Nav Item - reservasi -->
+        <li class="nav-item">
+            <a class="nav-link" href="#">
+                <i class="fas fa-fw fa-calendar"></i>
+                <span>Reservasi</span></a>
         </li>
 
         <!-- Nav Item - Peminjaman -->

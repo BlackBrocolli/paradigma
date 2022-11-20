@@ -10,6 +10,10 @@
         </div>
         <div class="card-body">
 
+            <!-- tombol tambah anggota -->
+            <a href="<?= base_url(); ?>/home/addbuku" class="btn btn-primary">Tambah buku</a>
+            <br><br>
+
             <!-- tampilkan info jika ada -->
             <?php if (!empty(session()->getFlashdata('info'))) : ?>
                 <div class="alert alert-warning alert-dismissible fade show" role="alert">

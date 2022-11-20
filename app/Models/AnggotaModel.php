@@ -9,10 +9,11 @@ class AnggotaModel extends Model
     protected $table      = 'mahasiswa';
     protected $primaryKey = 'nrp';
     protected $returnType     = 'object';
-    protected $allowedFields = ['nama'];
+    protected $allowedFields = ['nama', 'prodi', 'angkatan', 'nrp'];
     protected $useTimestamps = false;
 
     protected $validationRules = [
-        'nama_anggota' => 'required',
+        'nama' => 'required',
+        'angkatan' => 'required',
     ];
 }
