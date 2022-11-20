@@ -40,6 +40,7 @@ $routes->post('/login/process', 'Login::process');
 $routes->get('/login/logout', 'Login::logout');
 // home/dashboard/buku
 $routes->get('/home', 'Home::index', ['filter' => 'authfilter']);
+$routes->get('/home/buku', 'Home::readbuku', ['filter' => 'authfilter']);
 $routes->get('/home/addbuku', 'Home::addbuku', ['filter' => 'authfilter']);
 $routes->post('home/createbuku', 'Home::createbuku', ['filter' => 'authfilter']);
 $routes->get('/home/deletebuku/(:any)', 'Home::deletebuku/$1', ['filter' => 'authfilter']);

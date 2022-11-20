@@ -66,7 +66,7 @@
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; M. Noval Hidayat <?= date('Y'); ?></span>
+                        <span>Copyright &copy; Paradigma Pemrograman <?= date('Y'); ?></span>
                     </div>
                 </div>
             </footer>
