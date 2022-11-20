@@ -25,12 +25,13 @@
             <table class="table table-bordered">
                 <tr>
                     <th>No</th>
-                    <th>Kode Anggota</th>
-                    <th>Nama Anggota</th>
-                    <th>ID Buku</th>
+                    <th>NRP</th>
+                    <th>Nama mahasiswa</th>
+                    <th>Indeks</th>
                     <th>Judul</th>
-                    <th>Tanggal Pinjam</th>
-                    <th>Tanggal Kembali</th>
+                    <th>Tanggal pinjam</th>
+                    <th>Estimasi kembali</th>
+                    <th>Tanggal kembali</th>
                     <th>Status</th>
                     <th>Action</th>
                 </tr>
@@ -39,17 +40,18 @@
                 foreach ($pinjam as $row) : ?>
                     <tr>
                         <td><?php echo $nomor++; ?></td>
-                        <td><?php echo $row->kode_anggota; ?></td>
-                        <td><?php echo $row->nama_anggota; ?></td>
-                        <td><?php echo $row->id_buku; ?></td>
+                        <td><?php echo $row->nrp; ?></td>
+                        <td><?php echo $row->nama; ?></td>
+                        <td><?php echo $row->indeks_buku; ?></td>
                         <td><?php echo $row->judul; ?></td>
                         <td><?php echo $row->tanggal_pinjam; ?></td>
+                        <td><?php echo $row->tanggal_estimasi_kembali; ?></td>
                         <td><?php echo $row->tanggal_kembali; ?></td>
                         <td><?php echo $row->status; ?></td>
                         <td>
                             <?php if ($row->status == 'ongoing') : ?>
                                 <a title="Tambah waktu pinjam" class="btn btn-warning" href="<?= base_url(); ?>/home/edittanggal/<?= $row->id_peminjaman; ?>"><i class="fas fa-fw fa-calendar-plus" style="margin: -4px"></i></a>
-                                <a title="Peminjaman selesai" class="btn btn-success" href="<?= base_url(); ?>/home/editstatus/<?= $row->id_peminjaman; ?>/<?= $row->id_buku; ?>"><i class="fas fa-fw fa-check" style="margin: -4px"></i></a>
+                                <a title="Peminjaman selesai" class="btn btn-success" href="<?= base_url(); ?>/home/editstatus/<?= $row->id_peminjaman; ?>/<?= $row->indeks_buku; ?>"><i class="fas fa-fw fa-check" style="margin: -4px"></i></a>
                             <?php endif; ?>
                         </td>
 
