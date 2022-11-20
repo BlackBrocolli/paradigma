@@ -9,7 +9,13 @@ class Home extends BaseController
 
     public function index()
     {
-        $data['title'] = 'Home';
+        $data['title'] = 'Dashboard';
+        return view('admin/dashboard', $data);
+    }
+
+    public function readbuku()
+    {
+        $data['title'] = 'Buku';
         $buku = new BukuModel();
         $data['buku'] = $buku->orderBy('judul', 'asc')->paginate(5);
         $data['pager'] = $buku->pager;
