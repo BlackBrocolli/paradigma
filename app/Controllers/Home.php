@@ -30,14 +30,18 @@ class Home extends BaseController
     {
         $buku = new BukuModel();
 
+        $cover = $this->request->getFile("sampul");
+
         $result = $buku->insert([
             'judul' => $this->request->getPost("judul"),
             'penulis' => $this->request->getPost("penulis"),
             'penerbit' => $this->request->getPost("penerbit"),
             'stok' => $this->request->getPost("stok"),
+            'cover' => $cover->getRandomName()
         ]);
 
         if ($result == true) {
+            $cover->move('cover');
             return redirect()->to("/home")
                 ->with('info', 'Berhasil menambahkan data');
         } else {

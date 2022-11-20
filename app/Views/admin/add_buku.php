@@ -18,8 +18,9 @@
                     <?php endforeach; ?>
                 </ul>
             <?php endif; ?>
-
-            <?= form_open('/home/createbuku') ?>
+            
+            <form action="/home/createbuku" method="post" enctype="multipart/form-data">
+            <!-- <?= form_open('/home/createbuku') ?> -->
 
             <div class="mb-3">
                 <label for="exampleFormControlInput1" class="form-label">Judul</label>
@@ -36,6 +37,11 @@
             <div class="mb-3">
                 <label for="exampleFormControlInput1" class="form-label">Stok</label>
                 <input class="form-control" type="number" value="" name="stok">
+            </div>
+
+            <div class="mb-3">
+                <label for="sampul">Cover</label><br>
+                <input type="file" name="sampul" class="form-control" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload">
             </div>
 
             <button class="btn btn-primary">Save</button>
