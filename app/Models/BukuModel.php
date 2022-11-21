@@ -18,7 +18,7 @@ class BukuModel extends Model
         'judul' => 'required',
         'penulis' => 'required',
         'penerbit' => 'required',
-        'stok' => 'required',
+        'stok' => 'required|greater_than[0]',
         'sampul' => [
             'rules' => 'uploaded[sampul]|is_image[sampul]|mime_in[sampul,image/jpg,image/png,image/jpeg,]',
             'errors' => [
