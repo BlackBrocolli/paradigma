@@ -36,6 +36,13 @@
                 <span>Buku</span></a>
         </li>
 
+        <!-- Nav Item - copy buku -->
+        <li class="nav-item">
+            <a class="nav-link" href="<?= base_url(); ?>/home/copy_buku">
+                <i class="fas fa-fw fa-book-open"></i>
+                <span>Copy Buku</span></a>
+        </li>
+
         <!-- Nav Item - List mahasiswa -->
         <li class="nav-item">
             <a class="nav-link" href="<?= base_url('/home/anggota'); ?>">
