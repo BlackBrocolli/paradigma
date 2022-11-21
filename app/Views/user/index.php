@@ -14,6 +14,13 @@
             <a href="<?= base_url(); ?>/home/addbuku" class="btn btn-primary">Tambah buku</a>
             <br><br>
 
+            <form action="/home/buku" method="get">
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" placeholder="Search..." aria-label="Recipient's username" aria-describedby="button-addon2" name="cari">
+                    <button class="btn btn-primary" type="submit" id="button-addon2">Search</button>
+                </div>
+            </form>
+
             <!-- tampilkan info jika ada -->
             <?php if (!empty(session()->getFlashdata('info'))) : ?>
                 <div class="alert alert-warning alert-dismissible fade show" role="alert">
