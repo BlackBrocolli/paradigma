@@ -19,9 +19,9 @@ class Home extends BaseController
         $data['title'] = 'Buku';
         $buku = new BukuModel();
 
-        if($this->request->getGet("cari")){
+        if ($this->request->getGet("cari")) {
             $data['buku'] = $buku->like('judul', $this->request->getGet("cari"), 'both')->orLike('penulis', $this->request->getGet("cari"), 'both')->orLike('penerbit', $this->request->getGet("cari"), 'both')->orderBy('judul', 'asc')->paginate(5);
-        }else{
+        } else {
             $data['buku'] = $buku->orderBy('judul', 'asc')->paginate(5);
         }
 
@@ -44,7 +44,7 @@ class Home extends BaseController
         $buku = new BukuModel();
 
         $cover = $this->request->getFile("sampul");
-        $newCoverName = $cover->getRandomName(); 
+        $newCoverName = $cover->getRandomName();
 
         $result = $buku->insert([
             'judul' => $this->request->getPost("judul"),
@@ -56,7 +56,7 @@ class Home extends BaseController
 
         if ($result == true) {
             $cover->move('cover', $newCoverName);
-            $this->createCopyBuku($this->request->getPost("judul"), $this->request->getPost("penulis"), $this->request->getPost("stok"),$buku->insertID());
+            $this->createCopyBuku($this->request->getPost("judul"), $this->request->getPost("penulis"), $this->request->getPost("stok"), $buku->insertID());
             return redirect()->to("/home/buku")
                 ->with('info', 'Berhasil menambahkan data');
         } else {
@@ -65,30 +65,31 @@ class Home extends BaseController
         }
     }
 
-    public function createCopyBuku($judul, $penulis, $stok, $id){
+    public function createCopyBuku($judul, $penulis, $stok, $id)
+    {
         $copy = new CopyBukuModel();
-        
-        $indeksJudul ="";
+
+        $indeksJudul = "";
 
         $judulArray = explode(' ', $judul);
 
-        if(count($judulArray) > 1){
-            for($i =0; $i < 3; $i++){
-                if($i < count($judulArray)){
+        if (count($judulArray) > 1) {
+            for ($i = 0; $i < 3; $i++) {
+                if ($i < count($judulArray)) {
                     $judulArray[$i] = strtoupper(substr($judulArray[$i], 0, 1));
                     $indeksJudul .= $judulArray[$i];
                 }
             }
-        }else{
+        } else {
             $indeksJudul = strtoupper(substr($judul, 0, 1));
         }
 
         $random = mt_rand(100, 999);
 
-        for($i = 0; $i < $stok; $i++){
-            
+        for ($i = 0; $i < $stok; $i++) {
+
             $copy->insert([
-                'indeks_buku' => $random."-". $indeksJudul."-".substr(strtolower($penulis), 0, 3)."-".$i+1,
+                'indeks_buku' => $random . "-" . $indeksJudul . "-" . substr(strtolower($penulis), 0, 3) . "-" . ($i + 1),
                 'kondisi' => 'Baik',
                 'id_buku' => $id,
                 'status' => 'tersedia'
@@ -106,7 +107,7 @@ class Home extends BaseController
             $coverModel = new CopyBukuModel();
             $copyBuku = $coverModel->where('id_buku', $id_buku)->findAll();
 
-            foreach($copyBuku as $row){
+            foreach ($copyBuku as $row) {
                 $coverModel->delete($row->indeks_buku);
             }
 
@@ -136,11 +137,11 @@ class Home extends BaseController
 
         $cover = $this->request->getFile("sampul");
 
-        if($cover->getError() == 4){
+        if ($cover->getError() == 4) {
             $namaSampul = $this->request->getPost("sampulLama");
-        }else{
+        } else {
             $namaSampul = $cover->getRandomName();
-            unlink('cover/'.$this->request->getPost("sampulLama"));
+            unlink('cover/' . $this->request->getPost("sampulLama"));
             $cover->move('cover', $namaSampul);
         }
 
