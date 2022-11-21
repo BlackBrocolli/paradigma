@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\CopyBukuModel;
+use App\Models\BukuModel;
 
 class CopyBuku extends BaseController
 {
@@ -13,7 +14,13 @@ class CopyBuku extends BaseController
         }
         $data['title'] = 'List Copy Buku';
         $copyBuku = new CopyBukuModel();
-        $data['copy'] = $copyBuku->join('buku', 'buku.id_buku = copy_buku.id_buku')->orderBy('indeks_buku', 'asc')->paginate(5);
+
+        if($this->request->getGet("cari")){
+            $data['copy'] = $copyBuku->join('buku', 'buku.id_buku = copy_buku.id_buku')->like('indeks_buku', $this->request->getGet("cari"), 'both')->orLike('judul', $this->request->getGet("cari"), 'both')->orderBy('indeks_buku', 'asc')->paginate(5);
+        }else{
+            $data['copy'] = $copyBuku->join('buku', 'buku.id_buku = copy_buku.id_buku')->orderBy('indeks_buku', 'asc')->paginate(5);
+        }
+
         $data['pager'] = $copyBuku->pager;
         $data['nomor'] = nomor($this->request->getVar('page'), 5);
         
@@ -24,12 +31,23 @@ class CopyBuku extends BaseController
         if (session()->get('level') !== 'admin') { // jika bukan admin
             return redirect()->back();
         }
+
         $copy = new CopyBukuModel();
+
         $data['title'] = "Hapus Copy Buku";
         $data['delete'] = $copy->find($indeks);
 
         if($this->request->getMethod() === 'post'){
+            $bukuModel = new BukuModel();
+
+            $copyBuku = $copy->find($indeks);
             $copy->delete($indeks);
+            $buku = $bukuModel->find($copyBuku->id_buku);
+
+            $bukuModel->save([
+                'id_buku' => $copyBuku->id_buku,
+                'stok' => $buku->stok - 1
+            ]);
             return redirect()->to('home/copy_buku')->with('info', 'Berhasil menghapus data');
         }
 
@@ -65,5 +83,73 @@ class CopyBuku extends BaseController
         }else{
             return redirect()->to('/home/copy_buku')->with('info', 'Gagal di-update');
         }
+    }
+
+    public function addcopybuku(){
+        if (session()->get('level') !== 'admin') { // jika bukan admin
+            return redirect()->back();
+        }
+        
+        $bukuModel = new BukuModel();
+
+        $data['buku'] = $bukuModel->find();
+        $data['title'] = "Tambah Copy Buku";
+        
+        return view('admin/add_copy_buku', $data);
+    }
+
+    public function createcopybuku(){
+        if (session()->get('level') !== 'admin') { // jika bukan admin
+            return redirect()->back();
+        }
+
+        $bukuModel = new BukuModel();
+        $dataBuku = explode(' - ', $this->request->getPost('buku'));
+
+        if(count($dataBuku) == 2){
+            if($bukuModel->where('id_buku', $dataBuku[1])->countAllResults() > 0){
+                $copyModel = new CopyBukuModel();
+                $copyBuku = $copyModel->where('id_buku', $dataBuku[1])->withDeleted()->findAll();
+
+                $nomorCopy = [];
+
+                $terbesar = 0;
+                for($i = 0; $i < count($copyBuku); $i++){
+                    if($i == 0){
+                        $terbesar = (int) explode('-', $copyBuku[$i]->indeks_buku)[3];
+                    }else{
+                        if($terbesar < (int) explode('-', $copyBuku[$i]->indeks_buku)[3]){
+                            $terbesar = (int) explode('-', $copyBuku[$i]->indeks_buku)[3];
+                        }
+                    }
+                }
+                
+                $indeksCopy = $terbesar + 1;
+                
+                $indeksRandom = explode('-', $copyModel->where('id_buku', $dataBuku[1])->withDeleted()->first()->indeks_buku)[0];
+                $indeksJudul = explode('-', $copyModel->where('id_buku', $dataBuku[1])->withDeleted()->first()->indeks_buku)[1];
+                $indeksPenulis = explode('-', $copyModel->where('id_buku', $dataBuku[1])->withDeleted()->first()->indeks_buku)[2];
+    
+                $result = $copyModel->insert([
+                    'indeks_buku' => $indeksRandom.'-'.$indeksJudul.'-'.$indeksPenulis.'-'.$indeksCopy,
+                    'kondisi' => 'Baik',
+                    'id_buku' => $dataBuku[1],
+                    'status' => 'tersedia'
+                ]);
+
+                $bukuModel->save([
+                    'id_buku' => $dataBuku[1],
+                    'stok' => $bukuModel->find($dataBuku[1])->stok + 1
+                ]);
+    
+                return redirect()->to('/home/copy_buku')->with('info', 'Berhasil ditambahkan');
+                
+            }else{
+                return redirect()->to('/home/addcopybuku')->with('info', 'Buku Tidak ada!');
+            }
+        }else{
+            return redirect()->to('/home/addcopybuku')->with('info', 'Input tidak valid!');
+        }
+        
     }
 }

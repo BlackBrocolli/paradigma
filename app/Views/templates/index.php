@@ -19,6 +19,9 @@
     <link href="<?= base_url(); ?>/css/sb-admin-2.min.css" rel="stylesheet">
     <link rel="stylesheet" href="<?= base_url('css/bootstrap.min.css') ?>">
 
+    <!-- Autocomplete -->
+    <script src="<?= base_url(); ?>/vendor/autocomplete.js"></script>
+
     <style>
         ul.pagination li a {
             text-decoration: none;
@@ -111,6 +114,28 @@
 
     <!-- Custom scripts for all pages-->
     <script src="<?= base_url(); ?>/js/sb-admin-2.min.js"></script>
+
+    <!-- Autocomplete Tambah Copy Buku -->
+    <?php
+        if(isset($buku)){
+            $data = [];
+            foreach($buku as $row){
+                $data[] = [
+                'label'     =>  $row->judul. " - ". $row->id_buku,
+                'value'     =>  $row->id_buku
+                ];
+            }
+        }
+        
+    ?>
+    <script>
+        var auto_complete = new Autocomplete(document.getElementById('buku'), {
+            data:<?php if(isset($buku)){ echo json_encode($data);} ?>,
+            maximumItems:10,
+            highlightTyped:true,
+            highlightClass : 'fw-bold text-primary'
+        }); 
+    </script>
 </body>
 
 </html>

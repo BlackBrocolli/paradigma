@@ -18,7 +18,13 @@ class Home extends BaseController
     {
         $data['title'] = 'Buku';
         $buku = new BukuModel();
-        $data['buku'] = $buku->orderBy('judul', 'asc')->paginate(5);
+
+        if($this->request->getGet("cari")){
+            $data['buku'] = $buku->like('judul', $this->request->getGet("cari"), 'both')->orLike('penulis', $this->request->getGet("cari"), 'both')->orLike('penerbit', $this->request->getGet("cari"), 'both')->orderBy('judul', 'asc')->paginate(5);
+        }else{
+            $data['buku'] = $buku->orderBy('judul', 'asc')->paginate(5);
+        }
+
         $data['pager'] = $buku->pager;
         $data['nomor'] = nomor($this->request->getVar('page'), 5);
         return view('user/index', $data);
@@ -51,7 +57,7 @@ class Home extends BaseController
         if ($result == true) {
             $cover->move('cover', $newCoverName);
             $this->createCopyBuku($this->request->getPost("judul"), $this->request->getPost("penulis"), $this->request->getPost("stok"),$buku->insertID());
-            return redirect()->to("/home")
+            return redirect()->to("/home/buku")
                 ->with('info', 'Berhasil menambahkan data');
         } else {
             return redirect()->back()
@@ -97,9 +103,15 @@ class Home extends BaseController
         $data['delete'] = $buku->find($id_buku);
 
         if ($this->request->getMethod() === 'post') {
-            $buku->delete($id_buku);
+            $coverModel = new CopyBukuModel();
+            $copyBuku = $coverModel->where('id_buku', $id_buku)->findAll();
 
-            return redirect()->to('/home')
+            foreach($copyBuku as $row){
+                $coverModel->delete($row->indeks_buku);
+            }
+
+            $buku->delete($id_buku);
+            return redirect()->to('/home/buku')
                 ->with('info', 'Berhasil menghapus data');
         }
 

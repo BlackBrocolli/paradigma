@@ -10,7 +10,9 @@ class BukuModel extends Model
     protected $primaryKey = 'id_buku';
     protected $returnType     = 'object';
     protected $allowedFields = ['judul', 'penulis', 'penerbit', 'stok', 'cover'];
+    protected $useSoftDeletes = true;
     protected $useTimestamps = false;
+    protected $deletedField  = 'deleted_at';
 
     protected $validationRules = [
         'judul' => 'required',
