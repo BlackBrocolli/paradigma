@@ -18,27 +18,32 @@
                     <?php endforeach; ?>
                 </ul>
             <?php endif; ?>
+            
+            <form action="/home/createbuku" method="post" enctype="multipart/form-data">
 
-            <?= form_open('/home/createbuku') ?>
+                <div class="mb-3">
+                    <label for="exampleFormControlInput1" class="form-label">Judul</label>
+                    <input class="form-control" type="text" value="<?= old('judul'); ?>" name="judul">
+                </div>
+                <div class="mb-3">
+                    <label for="exampleFormControlInput1" class="form-label">Penulis</label>
+                    <input class="form-control" type="text" value="<?= old('penulis'); ?>" name="penulis">
+                </div>
+                <div class="mb-3">
+                    <label for="exampleFormControlInput1" class="form-label">Penerbit</label>
+                    <input class="form-control" type="text" value="<?= old('penerbit'); ?>" name="penerbit">
+                </div>
+                <div class="mb-3">
+                    <label for="exampleFormControlInput1" class="form-label">Stok</label>
+                    <input class="form-control" type="number" value="<?= old('stok'); ?>" name="stok">
+                </div>
 
-            <div class="mb-3">
-                <label for="exampleFormControlInput1" class="form-label">Judul</label>
-                <input class="form-control" type="text" value="" name="judul">
-            </div>
-            <div class="mb-3">
-                <label for="exampleFormControlInput1" class="form-label">Penulis</label>
-                <input class="form-control" type="text" value="" name="penulis">
-            </div>
-            <div class="mb-3">
-                <label for="exampleFormControlInput1" class="form-label">Penerbit</label>
-                <input class="form-control" type="text" value="" name="penerbit">
-            </div>
-            <div class="mb-3">
-                <label for="exampleFormControlInput1" class="form-label">Stok</label>
-                <input class="form-control" type="number" value="" name="stok">
-            </div>
+                <div class="mb-3">
+                    <label for="sampul">Cover</label><br>
+                    <input type="file" name="sampul" class="form-control" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload">
+                </div>
 
-            <button class="btn btn-primary">Save</button>
+                <button class="btn btn-primary">Save</button>
 
             </form>
 

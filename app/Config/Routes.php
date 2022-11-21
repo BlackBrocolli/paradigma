@@ -47,6 +47,12 @@ $routes->get('/home/deletebuku/(:any)', 'Home::deletebuku/$1', ['filter' => 'aut
 $routes->post('/home/deletebuku/(:any)', 'Home::deletebuku/$1', ['filter' => 'authfilter']);
 $routes->get('/home/editbuku/(:any)', 'Home::editbuku/$1', ['filter' => 'authfilter']);
 $routes->post('/home/updatebuku/(:any)', 'Home::updatebuku/$1', ['filter' => 'authfilter']);
+// home/dashboard/copybuku
+$routes->get('/home/copy_buku', 'CopyBuku::index', ['filter' => 'authfilter']);
+$routes->get('/home/deletecopybuku/(:any)', 'CopyBuku::delete/$1', ['filter' => 'authfilter']);
+$routes->post('/home/deletecopybuku/(:any)', 'CopyBuku::delete/$1', ['filter' => 'authfilter']);
+$routes->get('/home/editcopybuku/(:any)', 'CopyBuku::editcopybuku/$1', ['filter' => 'authfilter']);
+$routes->post('/home/updatecopybuku/(:any)', 'CopyBuku::updatecopybuku/$1', ['filter' => 'authfilter']);
 // my profile
 $routes->get('/home/myprofile', 'Home::myprofile', ['filter' => 'authfilter']);
 // anggota
