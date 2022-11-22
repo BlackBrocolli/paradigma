@@ -6,6 +6,7 @@ use App\Models\ViewPinjamModel;
 use App\Models\PinjamModel;
 use App\Models\BukuModel;
 use App\Models\AnggotaModel;
+use App\Models\CopyBukuModel;
 
 class Pinjam extends BaseController
 {
@@ -31,61 +32,81 @@ class Pinjam extends BaseController
         $data['title'] = 'Tambah Peminjaman';
         // ambil data buku dan anggota untuk dropdown
         $anggota = new AnggotaModel();
-        $buku = new BukuModel();
-        $data['anggota'] = $anggota->orderBy('kode_anggota', 'asc')->findAll();
-        $data['buku'] = $buku->orderBy('id_buku', 'asc')->findAll();
+        $copybuku = new CopyBukuModel();
+        $data['anggota'] = $anggota->orderBy('nrp', 'asc')->findAll();
+        $data['copy_buku'] = $copybuku->orderBy('indeks_buku', 'asc')->where('status', 'tersedia')->findAll();
         return view('admin/add_peminjaman', $data);
     }
 
     public function createpeminjaman()
     {
         // ambil data post yang dikirim
-        $kode_anggota = $this->request->getPost("kode_anggota");
-        $id_buku = $this->request->getPost("id_buku");
-        $tanggal_kembali = $this->request->getPost("tanggal_kembali");
+        $datanrp = explode(' - ', $this->request->getPost('nrp'));
+        $nrp = $datanrp[0];
+        $indeks_buku = $this->request->getPost("indeks_buku");
+        $tanggal_pinjam = date("Y-m-d"); // tanggal pinjam sekarang
+        // estimasi kembali 7 hari
+        $d = strtotime("+7 days");
+        $tanggal_estimasi_kembali = date("Y-m-d", $d);
 
         // jika semua field sudah diisi
-        if ($kode_anggota != "" && $id_buku != "" && $tanggal_kembali != "") {
-            // cek stok buku yang ingin dipinjam
-            $db = \Config\Database::connect();
-            $query = $db->query('SELECT stok FROM buku WHERE id_buku=' . $id_buku);
-            $row   = $query->getRow();
-            $oldstok = $row->stok;
-            $newstok = $oldstok - 1;
+        // insert data peminjaman
+        $pinjam = new PinjamModel();
+        $result = $pinjam->insert([
+            'tanggal_pinjam' => $tanggal_pinjam,
+            'tanggal_estimasi_kembali' => $tanggal_estimasi_kembali,
+            'indeks_buku' => $indeks_buku,
+            'nrp' => $nrp
+        ]);
+        if ($result == true) {
 
-            if ($oldstok == 0) {
-                return redirect()->back()
-                    ->with('info', 'Maaf, stok buku tidak tersedia saat ini');
-            } else {
-                $pinjam = new PinjamModel();
+            // other action
 
-                $tglPinjam = date('Y-m-d');
-
-                // insert data peminjaman
-                $result = $pinjam->insert([
-                    'tanggal_pinjam' => $tglPinjam,
-                    'tanggal_kembali' => $this->request->getPost("tanggal_kembali"),
-                    'id_buku' => $this->request->getPost("id_buku"),
-                    'kode_anggota' => $this->request->getPost("kode_anggota"),
-                ]);
-
-                // jika berhasil insert data peminjaman
-                if ($result == true) {
-                    // kurangi stok buku yang dipinjam
-                    $buku = new BukuModel();
-
-                    $result = $buku->update($id_buku, [
-                        'stok' => $newstok
-                    ]);
-
-                    return redirect()->to("/home/peminjaman")
-                        ->with('info', 'Berhasil menambahkan data');
-                } else {
-                    return redirect()->back()
-                        ->with('errors', $pinjam->errors());
-                }
-            }
+            return redirect()->to("/home/peminjaman")
+                ->with('info', 'Berhasil menambahkan data');
         }
+
+        // if ($nrp != "" && $indeks_buku != "") {
+        //     // cek stok buku yang ingin dipinjam
+        //     $db = \Config\Database::connect();
+        //     $query = $db->query('SELECT stok FROM buku WHERE id_buku=' . $id_buku);
+        //     $row   = $query->getRow();
+        //     $oldstok = $row->stok;
+        //     $newstok = $oldstok - 1;
+
+        //     if ($oldstok == 0) {
+        //         return redirect()->back()
+        //             ->with('info', 'Maaf, stok buku tidak tersedia saat ini');
+        //     } else {
+        //         $pinjam = new PinjamModel();
+
+        //         $tglPinjam = date('Y-m-d');
+
+        //         // insert data peminjaman
+        //         $result = $pinjam->insert([
+        //             'tanggal_pinjam' => $tglPinjam,
+        //             'tanggal_kembali' => $this->request->getPost("tanggal_kembali"),
+        //             'id_buku' => $this->request->getPost("id_buku"),
+        //             'nrp' => $this->request->getPost("nrp"),
+        //         ]);
+
+        //         // jika berhasil insert data peminjaman
+        //         if ($result == true) {
+        //             // kurangi stok buku yang dipinjam
+        //             $buku = new BukuModel();
+
+        //             $result = $buku->update($id_buku, [
+        //                 'stok' => $newstok
+        //             ]);
+
+        //             return redirect()->to("/home/peminjaman")
+        //                 ->with('info', 'Berhasil menambahkan data');
+        //         } else {
+        //             return redirect()->back()
+        //                 ->with('errors', $pinjam->errors());
+        //         }
+        //     }
+        // }
     }
 
     public function edittanggal($id_peminjaman)

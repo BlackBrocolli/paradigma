@@ -117,24 +117,73 @@
 
     <!-- Autocomplete Tambah Copy Buku -->
     <?php
-        if(isset($buku)){
-            $data = [];
-            foreach($buku as $row){
-                $data[] = [
-                'label'     =>  $row->judul. " - ". $row->id_buku,
+    if (isset($buku)) {
+        $data = [];
+        foreach ($buku as $row) {
+            $data[] = [
+                'label'     =>  $row->judul . " - " . $row->id_buku,
                 'value'     =>  $row->id_buku
-                ];
-            }
+            ];
         }
-        
+    }
+
+    if (isset($anggota)) {
+        $dataMahasiswa = [];
+        foreach ($anggota as $row) {
+            $dataMahasiswa[] = [
+                'label'     =>  $row->nrp . " - " . $row->nama,
+                'value'     =>  "999"
+            ];
+        }
+    }
+
+    if (isset($copy_buku)) {
+        $dataCopyBuku = [];
+        foreach ($copy_buku as $row) {
+            $dataCopyBuku[] = [
+                'label'     =>  $row->indeks_buku,
+                'value'     =>  $row->indeks_buku
+            ];
+        }
+    }
+
     ?>
     <script>
-        var auto_complete = new Autocomplete(document.getElementById('buku'), {
-            data:<?php if(isset($buku)){ echo json_encode($data);} ?>,
-            maximumItems:10,
-            highlightTyped:true,
-            highlightClass : 'fw-bold text-primary'
-        }); 
+        // auto complete inputan buku
+        <?php if (isset($buku)) { ?>
+            var auto_complete = new Autocomplete(document.getElementById('buku'), {
+                data: <?php if (isset($buku)) {
+                            echo json_encode($data);
+                        } ?>,
+                maximumItems: 10,
+                highlightTyped: true,
+                highlightClass: 'fw-bold text-primary'
+            });
+        <?php } ?>
+
+        // auto complete inputan nrp
+        <?php if (isset($anggota)) { ?>
+            var auto_complete_nrp = new Autocomplete(document.getElementById('nrp'), {
+                data: <?php if (isset($anggota)) {
+                            echo json_encode($dataMahasiswa);
+                        } ?>,
+                maximumItems: 10,
+                highlightTyped: true,
+                highlightClass: 'fw-bold text-primary'
+            });
+        <?php } ?>
+
+        // auto complete inputan indeks buku
+        <?php if (isset($copy_buku)) { ?>
+            var auto_complete_nrp = new Autocomplete(document.getElementById('indeks_buku'), {
+                data: <?php if (isset($copy_buku)) {
+                            echo json_encode($dataCopyBuku);
+                        } ?>,
+                maximumItems: 10,
+                highlightTyped: true,
+                highlightClass: 'fw-bold text-primary'
+            });
+        <?php } ?>
     </script>
 </body>
 

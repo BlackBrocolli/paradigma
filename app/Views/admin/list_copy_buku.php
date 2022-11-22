@@ -15,7 +15,7 @@
 
             <form action="/home/copy_buku" method="get">
                 <div class="input-group mb-3">
-                    <input type="text" class="form-control" placeholder="Recipient's username" aria-label="Search..." aria-describedby="button-addon2" name="cari">
+                    <input type="text" class="form-control" placeholder="Search by Book Name or Book ID" aria-label="Search..." aria-describedby="button-addon2" name="cari">
                     <button class="btn btn-primary" type="submit" id="button-addon2">Search</button>
                 </div>
             </form>

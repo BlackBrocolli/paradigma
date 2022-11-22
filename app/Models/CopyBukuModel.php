@@ -20,5 +20,5 @@ class CopyBukuModel extends Model
         'kondisi' => 'required',
         'id_buku' => 'required',
         'status' => 'required',
-    ]; 
+    ];
 }
