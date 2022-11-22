@@ -24,7 +24,7 @@
                     <?php endforeach; ?>
                 </ul>
             <?php endif; ?>
-            
+
             <form action="/home/createcopybuku" method="post">
 
                 <div class="mb-3">
@@ -33,10 +33,10 @@
                 </div>
                 <div class="mb-3">
                     <label for="exampleFormControlInput1" class="form-label">Jumlah Pertambahan</label>
-                    <input class="form-control" type="number"  name="tambah">
+                    <input class="form-control" type="number" name="tambah">
                 </div>
                 <button class="btn btn-primary">Save</button>
-                
+
             </form>
 
         </div>

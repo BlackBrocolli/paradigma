@@ -29,30 +29,13 @@
             <?= form_open('/home/createpeminjaman') ?>
 
             <div class="mb-3">
-                <label for="exampleFormControlInput1" class="form-label">Kode Anggota</label>
-                <select name="kode_anggota" class="form-select">
-                    <option value="">Pilih Kode Anggota</option>
-                    <?php
-                    foreach ($anggota as $row) : ?>
-                        <option value="<?= $row->kode_anggota; ?>"><?= $row->kode_anggota; ?> - <?= $row->nama_anggota; ?></option>
-                    <?php endforeach; ?>
-                </select>
+                <label for="exampleFormControlInput1" class="form-label">NRP</label>
+                <input id="nrp" class="form-control" type="text" value="" name="nrp" autocomplete="off">
             </div>
 
             <div class="mb-3">
-                <label for="exampleFormControlInput1" class="form-label">Nama Buku</label>
-                <select name="id_buku" class="form-select">
-                    <option value="">Pilih Nama Buku</option>
-                    <?php
-                    foreach ($buku as $row) : ?>
-                        <option value="<?= $row->id_buku; ?>"><?= $row->id_buku; ?> - <?= $row->judul; ?></option>
-                    <?php endforeach; ?>
-                </select>
-            </div>
-
-            <div class="mb-3">
-                <label for="exampleFormControlInput1" class="form-label">Tanggal Kembali</label>
-                <input class="form-control" type="date" value="" name="tanggal_kembali">
+                <label for="exampleFormControlInput1" class="form-label">Indeks Buku</label>
+                <input id="indeks_buku" class="form-control" type="text" value="" name="indeks_buku" autocomplete="off">
             </div>
 
             <button class="btn btn-primary">Save</button>
