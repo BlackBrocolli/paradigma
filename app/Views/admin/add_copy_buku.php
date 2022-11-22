@@ -31,6 +31,10 @@
                     <label for="angkatan" class="form-label">Buku</label>
                     <input id="buku" class="form-control" type="text" value="" name="buku" autocomplete="off">
                 </div>
+                <div class="mb-3">
+                    <label for="exampleFormControlInput1" class="form-label">Jumlah Pertambahan</label>
+                    <input class="form-control" type="number"  name="tambah">
+                </div>
                 <button class="btn btn-primary">Save</button>
                 
             </form>

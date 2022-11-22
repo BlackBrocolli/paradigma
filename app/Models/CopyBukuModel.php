@@ -19,6 +19,6 @@ class CopyBukuModel extends Model
         'indeks_buku' => 'required',
         'kondisi' => 'required',
         'id_buku' => 'required',
-        'status' => 'required'
+        'status' => 'required',
     ]; 
 }

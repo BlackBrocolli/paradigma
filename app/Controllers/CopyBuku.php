@@ -107,45 +107,87 @@ class CopyBuku extends BaseController
         $dataBuku = explode(' - ', $this->request->getPost('buku'));
 
         if(count($dataBuku) == 2){
-            if($bukuModel->where('id_buku', $dataBuku[1])->countAllResults() > 0){
-                $copyModel = new CopyBukuModel();
-                $copyBuku = $copyModel->where('id_buku', $dataBuku[1])->withDeleted()->findAll();
+            if(!empty($this->request->getPost('tambah')) || $this->request->getPost('tambah') < 0){
+                if($bukuModel->where('id_buku', $dataBuku[1])->countAllResults() > 0){
+                    $copyModel = new CopyBukuModel();
 
-                $nomorCopy = [];
+                    $copyBuku = $copyModel->where('id_buku', $dataBuku[1])->withDeleted()->findAll();
 
-                $terbesar = 0;
-                for($i = 0; $i < count($copyBuku); $i++){
-                    if($i == 0){
-                        $terbesar = (int) explode('-', $copyBuku[$i]->indeks_buku)[3];
+                    if($copyModel->where('id_buku', $dataBuku[1])->withDeleted()->countAllResults() > 0){
+                        $nomorCopy = [];
+    
+                        $terbesar = 0;
+                        for($i = 0; $i < count($copyBuku); $i++){
+                            if($i == 0){
+                                $terbesar = (int) explode('-', $copyBuku[$i]->indeks_buku)[3];
+                            }else{
+                                if($terbesar < (int) explode('-', $copyBuku[$i]->indeks_buku)[3]){
+                                    $terbesar = (int) explode('-', $copyBuku[$i]->indeks_buku)[3];
+                                }
+                            }
+                        }
+                        
+                        $indeksCopy = $terbesar + 1;
+                        
+                        $indeksRandom = explode('-', $copyModel->where('id_buku', $dataBuku[1])->withDeleted()->first()->indeks_buku)[0];
+                        $indeksJudul = explode('-', $copyModel->where('id_buku', $dataBuku[1])->withDeleted()->first()->indeks_buku)[1];
+                        $indeksPenulis = explode('-', $copyModel->where('id_buku', $dataBuku[1])->withDeleted()->first()->indeks_buku)[2];
+                        
+                        for($i = 0; $i < $this->request->getPost('tambah'); $i++){
+                            $result = $copyModel->insert([
+                                'indeks_buku' => $indeksRandom.'-'.$indeksJudul.'-'.$indeksPenulis.'-'.($indeksCopy + $i),
+                                'kondisi' => 'Baik',
+                                'id_buku' => $dataBuku[1],
+                                'status' => 'tersedia'
+                            ]);    
+                        }
+        
                     }else{
-                        if($terbesar < (int) explode('-', $copyBuku[$i]->indeks_buku)[3]){
-                            $terbesar = (int) explode('-', $copyBuku[$i]->indeks_buku)[3];
+                        $copy = new CopyBukuModel();
+                        $bukuModel = new BukuModel();
+
+                        $penulis = $bukuModel->find($dataBuku[1])->penulis;
+
+                        $indeksJudul = "";
+
+                        $judulArray = explode(' ', $dataBuku[0]);
+
+                        if (count($judulArray) > 1) {
+                            for ($i = 0; $i < 3; $i++) {
+                                if ($i < count($judulArray)) {
+                                    $judulArray[$i] = strtoupper(substr($judulArray[$i], 0, 1));
+                                    $indeksJudul .= $judulArray[$i];
+                                }
+                            }
+                        } else {
+                            $indeksJudul = strtoupper(substr($judul, 0, 1));
+                        }
+
+                        $random = mt_rand(100, 999);
+
+                        for ($i = 0; $i < $this->request->getPost('tambah'); $i++) {
+
+                            $copy->insert([
+                                'indeks_buku' => $random . "-" . $indeksJudul . "-" . substr(strtolower($penulis), 0, 3) . "-" . ($i + 1),
+                                'kondisi' => 'Baik',
+                                'id_buku' => $dataBuku[1],
+                                'status' => 'tersedia'
+                            ]);
                         }
                     }
-                }
-                
-                $indeksCopy = $terbesar + 1;
-                
-                $indeksRandom = explode('-', $copyModel->where('id_buku', $dataBuku[1])->withDeleted()->first()->indeks_buku)[0];
-                $indeksJudul = explode('-', $copyModel->where('id_buku', $dataBuku[1])->withDeleted()->first()->indeks_buku)[1];
-                $indeksPenulis = explode('-', $copyModel->where('id_buku', $dataBuku[1])->withDeleted()->first()->indeks_buku)[2];
-    
-                $result = $copyModel->insert([
-                    'indeks_buku' => $indeksRandom.'-'.$indeksJudul.'-'.$indeksPenulis.'-'.$indeksCopy,
-                    'kondisi' => 'Baik',
-                    'id_buku' => $dataBuku[1],
-                    'status' => 'tersedia'
-                ]);
 
-                $bukuModel->save([
-                    'id_buku' => $dataBuku[1],
-                    'stok' => $bukuModel->find($dataBuku[1])->stok + 1
-                ]);
-    
-                return redirect()->to('/home/copy_buku')->with('info', 'Berhasil ditambahkan');
-                
+                    $bukuModel->save([
+                        'id_buku' => $dataBuku[1],
+                        'stok' => $bukuModel->find($dataBuku[1])->stok + $this->request->getPost('tambah')
+                    ]);
+        
+                    return redirect()->to('/home/copy_buku')->with('info', 'Berhasil ditambahkan');
+                    
+                }else{
+                    return redirect()->to('/home/addcopybuku')->with('info', 'Buku Tidak ada!');
+                }
             }else{
-                return redirect()->to('/home/addcopybuku')->with('info', 'Buku Tidak ada!');
+                return redirect()->to('/home/addcopybuku')->with('info', 'Input pertambahan tidak valid!');
             }
         }else{
             return redirect()->to('/home/addcopybuku')->with('info', 'Input tidak valid!');
