@@ -14,6 +14,18 @@ class Home extends BaseController
         return view('admin/dashboard', $data);
     }
 
+    public function index_mhs()
+    {
+        $data['title'] = 'Dashboard';
+        return view('mahasiswa/index', $data);
+    }
+
+    public function mhs_detailbuku()
+    {
+        $data['title'] = 'Detail buku';
+        return view('mahasiswa/detailbuku', $data);
+    }
+
     public function readbuku()
     {
         $data['title'] = 'Buku';
