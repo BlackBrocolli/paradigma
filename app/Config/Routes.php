@@ -55,6 +55,14 @@ $routes->get('/home/editcopybuku/(:any)', 'CopyBuku::editcopybuku/$1', ['filter'
 $routes->post('/home/updatecopybuku/(:any)', 'CopyBuku::updatecopybuku/$1', ['filter' => 'authfilter']);
 $routes->get('/home/addcopybuku', 'CopyBuku::addcopybuku', ['filter' => 'authfilter']);
 $routes->post('/home/createcopybuku', 'CopyBuku::createcopybuku', ['filter' => 'authfilter']);
+// home/dashboard/ebook
+$routes->get('/home/ebook', 'Ebook::index', ['filter' => 'authfilter']);
+$routes->get('home/addebook', 'Ebook::addebook', ['filter' => 'authfilter']);
+$routes->post('home/createebook', 'Ebook::createebook', ['filter' => 'authfilter']);
+$routes->get('home/deleteebook/(:any)', 'Ebook::deleteebook/$1', ['filter' => 'authfilter']);
+$routes->post('home/deleteebook/(:any)', 'Ebook::deleteebook/$1', ['filter' => 'authfilter']);
+$routes->get('home/editebook/(:any)', 'Ebook::editebook/$1', ['filter' => 'authfilter']);
+$routes->post('home/updateebook/(:any)', 'Ebook::updateebook/$1', ['filter' => 'authfilter']);
 // my profile
 $routes->get('/home/myprofile', 'Home::myprofile', ['filter' => 'authfilter']);
 // anggota
