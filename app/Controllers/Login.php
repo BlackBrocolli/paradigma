@@ -31,7 +31,13 @@ class Login extends BaseController
                     'logged_in' => TRUE,
                     'level' => $dataUser->level
                 ]);
-                return redirect()->to(base_url('home'));
+
+                // cek apakah admin atau mahasiswa
+                if ($dataUser->level == 'admin') {
+                    return redirect()->to(base_url('home'));
+                } else {
+                    return redirect()->to(base_url('home/mhs'));
+                }
             } else {
                 session()->setFlashdata('error', 'Email & Password Salah');
                 return redirect()->back();
