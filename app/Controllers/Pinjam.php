@@ -58,7 +58,28 @@ class Pinjam extends BaseController
             'indeks_buku' => $indeks_buku,
             'nrp' => $nrp
         ]);
-        if ($result == true) {
+        if ($result == true) { // jika berhasil insert peminjaman
+
+            // update status copy buku (tersedia -> dipinjam)
+            $copyBuku = new CopyBukuModel();
+            $update = $copyBuku->update($indeks_buku, [
+                'status' => 'dipinjam'
+            ]);
+
+            // ambil id_buku dari tabel copy buku
+            $dataCopyBuku = $copyBuku->where('indeks_buku', $indeks_buku)->first();
+            $id_buku = $dataCopyBuku->id_buku;
+
+            // ambil stok buku lama
+            $bukuModel = new BukuModel();
+            $dataBuku = $bukuModel->where('id_buku', $id_buku)->first();
+            $stokBukuLama = $dataBuku->stok;
+
+            // update stok buku baru = stok buku lama - 1
+            $stokBukuBaru = $stokBukuLama - 1;
+            $update = $bukuModel->update($id_buku, [
+                'stok' => $stokBukuBaru
+            ]);
 
             // other action
 
