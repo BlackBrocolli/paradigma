@@ -13,7 +13,7 @@
                         <h2>Konfirmasi</h2>
                         <p>Peminjaman buku "<?= $update->judul; ?>" selesai, lanjutkan?</p>
 
-                        <?= form_open("/home/editstatus/" . $update->id_peminjaman . "/" . $update->id_buku) ?>
+                        <?= form_open("/home/editstatus/" . $update->id_peminjaman . "/" . $update->indeks_buku) ?>
                         <button class="btn btn-primary">Yes</button>
                         <a href="<?= site_url('/home/peminjaman') ?>">Cancel</a>
                         </form>

@@ -22,7 +22,7 @@ class BukuModel extends Model
         'sampul' => [
             'rules' => 'uploaded[sampul]|is_image[sampul]|mime_in[sampul,image/jpg,image/png,image/jpeg,]',
             'errors' => [
-                'uploaded' => 'Cover hasn\'t been uploaded',
+                'uploaded' => 'Cover hasn\'t been uploaded'
             ]
         ]
     ];

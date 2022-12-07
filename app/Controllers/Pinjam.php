@@ -58,7 +58,28 @@ class Pinjam extends BaseController
             'indeks_buku' => $indeks_buku,
             'nrp' => $nrp
         ]);
-        if ($result == true) {
+        if ($result == true) { // jika berhasil insert peminjaman
+
+            // update status copy buku (tersedia -> dipinjam)
+            $copyBuku = new CopyBukuModel();
+            $update = $copyBuku->update($indeks_buku, [
+                'status' => 'dipinjam'
+            ]);
+
+            // ambil id_buku dari tabel copy buku
+            $dataCopyBuku = $copyBuku->where('indeks_buku', $indeks_buku)->first();
+            $id_buku = $dataCopyBuku->id_buku;
+
+            // ambil stok buku lama
+            $bukuModel = new BukuModel();
+            $dataBuku = $bukuModel->where('id_buku', $id_buku)->first();
+            $stokBukuLama = $dataBuku->stok;
+
+            // update stok buku baru = stok buku lama - 1
+            $stokBukuBaru = $stokBukuLama - 1;
+            $update = $bukuModel->update($id_buku, [
+                'stok' => $stokBukuBaru
+            ]);
 
             // other action
 
@@ -122,19 +143,29 @@ class Pinjam extends BaseController
 
     public function updatetanggal($id_peminjaman)
     {
-        $pinjam = new PinjamModel();
+        // ambil tanggal lama
+        $pinjamModel = new PinjamModel();
+        $dataPinjam = $pinjamModel->where('id_peminjaman', $id_peminjaman)->first();
+        $tanggalLama = $dataPinjam->tanggal_estimasi_kembali;
 
-        $result = $pinjam->update($id_peminjaman, [
-            'tanggal_kembali' => $this->request->getPost("tanggal_kembali")
-        ]);
+        // set tanggal baru, +7 hari
+        // $date = strtotime($tanggalLama);
+        // $tanggalBaru = strtotime("+7 day", $tanggalLama);
+        // $tanggalBaru = date($tanggalLama, strtotime("+7 days"));
+        $tanggalBaru = date_add($tanggalLama, date_interval_create_from_date_string("40 days"));
+
+        // $result = $pinjamModel->update($id_peminjaman, [
+        //     'tanggal_estimasi_kembali' => $tanggalBaru
+        // ]);
 
         return redirect()->to('/home/peminjaman')
-            ->with('info', 'Berhasil memperpanjang waktu pinjam');
+            // ->with('info', 'Berhasil memperpanjang waktu pinjam');
+            ->with('info', $tanggalBaru);
     }
 
     // untuk update status peminjaman menjadi selesai
     // lalu mengupdate stok buku pada tabel buku
-    public function editstatus($id_peminjaman, $id_buku)
+    public function editstatus($id_peminjaman, $indeks_buku)
     {
         $data['title'] = 'Konfirmasi status';
         $viewPinjam = new ViewPinjamModel();
@@ -142,25 +173,47 @@ class Pinjam extends BaseController
 
         if ($this->request->getMethod() === 'post') {
 
-            // update status
+            // update status peminjaman
             $pinjam = new PinjamModel();
 
             $result = $pinjam->update($id_peminjaman, [
                 'status' => 'selesai'
             ]);
 
-            // update stok buku
-            $db = \Config\Database::connect();
-            $query = $db->query('SELECT stok FROM buku WHERE id_buku=' . $id_buku);
-            $row   = $query->getRow();
-            $oldstok = $row->stok;
-            $newstok = $oldstok + 1;
-            // tambahkan stok buku yang dikembalikan
-            $buku = new BukuModel();
-
-            $result = $buku->update($id_buku, [
-                'stok' => $newstok
+            // update status copy buku (dipinjam -> tersedia)
+            $copyBuku = new CopyBukuModel();
+            $update = $copyBuku->update($indeks_buku, [
+                'status' => 'tersedia'
             ]);
+
+            // stok buku bertambah +1
+            // ambil id_buku dari tabel copy buku
+            $dataCopyBuku = $copyBuku->where('indeks_buku', $indeks_buku)->first();
+            $id_buku = $dataCopyBuku->id_buku;
+
+            // ambil stok buku lama
+            $bukuModel = new BukuModel();
+            $dataBuku = $bukuModel->where('id_buku', $id_buku)->first();
+            $stokBukuLama = $dataBuku->stok;
+
+            // update stok buku baru = stok buku lama - 1
+            $stokBukuBaru = $stokBukuLama + 1;
+            $update = $bukuModel->update($id_buku, [
+                'stok' => $stokBukuBaru
+            ]);
+
+            // // update stok buku
+            // $db = \Config\Database::connect();
+            // $query = $db->query('SELECT stok FROM buku WHERE id_buku=' . $id_buku);
+            // $row   = $query->getRow();
+            // $oldstok = $row->stok;
+            // $newstok = $oldstok + 1;
+            // // tambahkan stok buku yang dikembalikan
+            // $buku = new BukuModel();
+
+            // $result = $buku->update($id_buku, [
+            //     'stok' => $newstok
+            // ]);
 
             return redirect()->to('/home/peminjaman')
                 ->with('info', 'Peminjaman selesai');
