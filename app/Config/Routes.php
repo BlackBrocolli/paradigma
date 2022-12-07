@@ -79,6 +79,7 @@ $routes->get('/home/addpeminjaman', 'Pinjam::addpeminjaman', ['filter' => 'authf
 $routes->post('home/createpeminjaman', 'Pinjam::createpeminjaman', ['filter' => 'authfilter']);
 $routes->get('/home/edittanggal/(:any)', 'Pinjam::edittanggal/$1', ['filter' => 'authfilter']);
 $routes->post('/home/updatetanggal/(:any)', 'Pinjam::updatetanggal/$1', ['filter' => 'authfilter']);
+$routes->get('/home/updatetanggal/(:any)', 'Pinjam::updatetanggal/$1', ['filter' => 'authfilter']);
 $routes->get('/home/editstatus/(:any)/(:any)', 'Pinjam::editstatus/$1/$2', ['filter' => 'authfilter']);
 $routes->post('/home/editstatus/(:any)/(:any)', 'Pinjam::editstatus/$1/$2', ['filter' => 'authfilter']);
 // mahasiswa punya
