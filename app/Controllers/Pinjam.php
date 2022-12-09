@@ -10,6 +10,7 @@ use App\Models\CopyBukuModel;
 
 class Pinjam extends BaseController
 {
+    // menampilkan halaman peminjaman
     public function index()
     {
         if (session()->get('level') !== 'admin') { // jika bukan admin
@@ -20,6 +21,23 @@ class Pinjam extends BaseController
         $data['pinjam'] = $viewPinjam->orderBy('id_peminjaman', 'asc')->paginate(5);
         $data['pager'] = $viewPinjam->pager;
         $data['nomor'] = nomor($this->request->getVar('page'), 5);
+
+        // update status peminjaman jika sudah overdue
+        $dataPeminjaman = $viewPinjam->orderBy('id_peminjaman', 'asc')->where('status', 'ongoing')->findAll();
+        foreach ($dataPeminjaman as $row) {
+            // ambil tanggal estimasi kembali dan tanggal sekarang
+            $tanggal_estimasi_kembali = $row->tanggal_estimasi_kembali;
+            $id_peminjaman = $row->id_peminjaman;
+
+            // cek apakah sudah overdue
+            if (strtotime($tanggal_estimasi_kembali) < strtotime('now')) {
+                $pinjamModel = new PinjamModel();
+                $update = $pinjamModel->update($id_peminjaman, [
+                    'status' => 'overdue'
+                ]);
+            }
+        }
+
         return view('admin/peminjaman', $data);
     }
 
@@ -38,6 +56,7 @@ class Pinjam extends BaseController
         return view('admin/add_peminjaman', $data);
     }
 
+    // input peminjaman
     public function createpeminjaman()
     {
         // ambil data post yang dikirim

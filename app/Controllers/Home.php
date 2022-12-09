@@ -174,4 +174,10 @@ class Home extends BaseController
         $data['title'] = 'Update buku';
         return view('user/myprofile', $data);
     }
+
+    public function debugging()
+    {
+        $data['title'] = 'Debugging';
+        return view('index.php', $data);
+    }
 }
