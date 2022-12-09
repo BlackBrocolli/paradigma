@@ -163,6 +163,7 @@ class Pinjam extends BaseController
             ->with('info', $tanggalBaru);
     }
 
+    // fitur pengembalian
     // untuk update status peminjaman menjadi selesai
     // lalu mengupdate stok buku pada tabel buku
     public function editstatus($id_peminjaman, $indeks_buku)
@@ -173,11 +174,13 @@ class Pinjam extends BaseController
 
         if ($this->request->getMethod() === 'post') {
 
-            // update status peminjaman
+            // update status peminjaman & tanggal kembali
             $pinjam = new PinjamModel();
+            $tanggal_kembali = date("Y-m-d"); // tanggal kembali sekarang
 
             $result = $pinjam->update($id_peminjaman, [
-                'status' => 'selesai'
+                'status' => 'selesai',
+                'tanggal_kembali' => $tanggal_kembali
             ]);
 
             // update status copy buku (dipinjam -> tersedia)
