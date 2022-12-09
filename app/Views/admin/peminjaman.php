@@ -47,9 +47,9 @@
                         <td><?php echo $row->tanggal_pinjam; ?></td>
                         <td><?php echo $row->tanggal_estimasi_kembali; ?></td>
                         <td><?php echo $row->tanggal_kembali; ?></td>
-                        <td><?php echo $row->status; ?></td>
+                        <td id="status"><?php echo $row->status; ?></td>
                         <td>
-                            <?php if ($row->status == 'ongoing') : ?>
+                            <?php if ($row->status == 'ongoing' || $row->status == 'overdue') : ?>
                                 <a title="Tambah waktu pinjam" class="btn btn-warning" href="<?= base_url(); ?>/home/updatetanggal/<?= $row->id_peminjaman; ?>"><i class="fas fa-fw fa-calendar-plus" style="margin: -4px"></i></a>
                                 <a title="Peminjaman selesai" class="btn btn-success" href="<?= base_url(); ?>/home/editstatus/<?= $row->id_peminjaman; ?>/<?= $row->indeks_buku; ?>"><i class="fas fa-fw fa-check" style="margin: -4px"></i></a>
                             <?php endif; ?>

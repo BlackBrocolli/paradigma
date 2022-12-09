@@ -93,6 +93,9 @@ $routes->post('/home/editstatus/(:any)/(:any)', 'Pinjam::editstatus/$1/$2', ['fi
 // mahasiswa punya
 $routes->get('/home/mhs', 'Home::index_mhs', ['filter' => 'authfilter']);
 $routes->get('/home/mhs/detailbuku', 'Home::mhs_detailbuku', ['filter' => 'authfilter']);
+
+// for debugging
+$routes->get('/home/debugging', 'Home::debugging', ['filter' => 'authfilter']);
 /*
  * --------------------------------------------------------------------
  * Additional Routing
