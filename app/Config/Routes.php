@@ -63,6 +63,14 @@ $routes->get('home/deleteebook/(:any)', 'Ebook::deleteebook/$1', ['filter' => 'a
 $routes->post('home/deleteebook/(:any)', 'Ebook::deleteebook/$1', ['filter' => 'authfilter']);
 $routes->get('home/editebook/(:any)', 'Ebook::editebook/$1', ['filter' => 'authfilter']);
 $routes->post('home/updateebook/(:any)', 'Ebook::updateebook/$1', ['filter' => 'authfilter']);
+// home/dashboard/tugas akhir
+$routes->get('/home/tugasakhir', 'TugasAkhir::index', ['filter' => 'authfilter']);
+$routes->get('/home/addtugasakhir', 'TugasAkhir::addtugasakhir', ['filter' => 'authfilter']);
+$routes->post('/home/createtugasakhir', 'TugasAkhir::createtugasakhir', ['filter' => 'authfilter']);
+$routes->get('/home/edittugasakhir/(:any)', 'TugasAkhir::edittugasakhir/$1', ['filter' => 'authfilter']);
+$routes->post('/home/updatetugasakhir/(:any)', 'TugasAkhir::updatetugasakhir/$1', ['filter' => 'authfilter']);
+$routes->get('/home/deletetugasakhir/(:any)', 'TugasAkhir::deletetugasakhir/$1', ['filter' => 'authfilter']);
+$routes->post('/home/deletetugasakhir/(:any)', 'TugasAkhir::deletetugasakhir/$1', ['filter' => 'authfilter']);
 // my profile
 $routes->get('/home/myprofile', 'Home::myprofile', ['filter' => 'authfilter']);
 // anggota
