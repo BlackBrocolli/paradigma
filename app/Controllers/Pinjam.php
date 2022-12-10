@@ -160,26 +160,34 @@ class Pinjam extends BaseController
         return view('admin/update_tanggal', $data);
     }
 
-    public function updatetanggal($id_peminjaman)
+    // fitur perpanjang waktu pinjam
+    public function updatetanggal($id_peminjaman, $indeks_buku)
     {
-        // ambil tanggal lama
-        $pinjamModel = new PinjamModel();
-        $dataPinjam = $pinjamModel->where('id_peminjaman', $id_peminjaman)->first();
-        $tanggalLama = $dataPinjam->tanggal_estimasi_kembali;
+        $data['title'] = 'Konfirmasi Tambah Waktu Pinjam';
+        $viewPinjam = new ViewPinjamModel();
+        $data['update'] = $viewPinjam->find($id_peminjaman);
 
-        // set tanggal baru, +7 hari
-        // $date = strtotime($tanggalLama);
-        // $tanggalBaru = strtotime("+7 day", $tanggalLama);
-        // $tanggalBaru = date($tanggalLama, strtotime("+7 days"));
-        $tanggalBaru = date_add($tanggalLama, date_interval_create_from_date_string("40 days"));
+        if ($this->request->getMethod() === 'post') {
+            // ambil tanggal lama
+            $pinjamModel = new PinjamModel();
+            $dataPinjam = $pinjamModel->where('id_peminjaman', $id_peminjaman)->first();
+            $tanggalLama = $dataPinjam->tanggal_estimasi_kembali;
 
-        // $result = $pinjamModel->update($id_peminjaman, [
-        //     'tanggal_estimasi_kembali' => $tanggalBaru
-        // ]);
+            // atur tanggal baru, +7 hari
+            $date = date_create($tanggalLama);
+            date_add($date, date_interval_create_from_date_string("7 days"));
+            $tanggalBaru = date_format($date, "Y-m-d");
 
-        return redirect()->to('/home/peminjaman')
-            // ->with('info', 'Berhasil memperpanjang waktu pinjam');
-            ->with('info', $tanggalBaru);
+            // update tanggal estimasi kembali
+            $result = $pinjamModel->update($id_peminjaman, [
+                'tanggal_estimasi_kembali' => $tanggalBaru
+            ]);
+
+            return redirect()->to('/home/peminjaman')
+                ->with('info', 'Berhasil memperpanjang waktu pinjam');
+        }
+
+        return view('admin/update_tgl_estimasi', $data);
     }
 
     // fitur pengembalian
