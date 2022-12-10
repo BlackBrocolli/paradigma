@@ -11,9 +11,9 @@
                     <div class="text-center">
 
                         <h2>Delete Anggota</h2>
-                        <p>Are you sure want to delete "<?= $delete->nama_anggota; ?>"</p>
+                        <p>Are you sure want to delete "<?= $delete->nama; ?>"</p>
 
-                        <?= form_open("/home/deleteanggota/" . $delete->kode_anggota) ?>
+                        <?= form_open("/home/deleteanggota/" . $delete->nrp) ?>
                         <button class="btn btn-primary">Yes</button>
                         <a href="<?= site_url('/home/anggota') ?>">Cancel</a>
                         </form>

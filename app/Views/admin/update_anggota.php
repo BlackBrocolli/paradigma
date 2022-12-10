@@ -19,15 +19,15 @@
                 </ul>
             <?php endif; ?>
 
-            <?= form_open('/home/updateanggota/' . $edit->kode_anggota) ?>
+            <?= form_open('/home/updateanggota/' . $edit->nrp) ?>
 
             <div class="mb-3">
                 <label for="exampleFormControlInput1" class="form-label">Kode Anggota</label>
-                <input class="form-control" type="text" value="<?= $edit->kode_anggota; ?>" aria-label="readonly input example" readonly>
+                <input class="form-control" type="text" value="<?= $edit->nrp; ?>" aria-label="readonly input example" readonly>
             </div>
             <div class="mb-3">
                 <label for="exampleFormControlInput1" class="form-label">Nama Anggota</label>
-                <input class="form-control" type="text" value="<?= $edit->nama_anggota; ?>" name="nama_anggota">
+                <input class="form-control" type="text" value="<?= $edit->nama; ?>" name="nama_anggota">
             </div>
 
             <button class="btn btn-primary">Save</button>
