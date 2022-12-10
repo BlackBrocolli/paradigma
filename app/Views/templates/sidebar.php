@@ -73,7 +73,7 @@
 
         <!-- Nav Item - reservasi -->
         <li class="nav-item">
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="<?= base_url('/home/reservasi'); ?>">
                 <i class="fas fa-fw fa-calendar"></i>
                 <span>Reservasi</span></a>
         </li>
