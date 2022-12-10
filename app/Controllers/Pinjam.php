@@ -18,9 +18,9 @@ class Pinjam extends BaseController
         }
         $data['title'] = 'Peminjaman';
         $viewPinjam = new ViewPinjamModel();
-        $data['pinjam'] = $viewPinjam->orderBy('id_peminjaman', 'asc')->paginate(5);
+        $data['pinjam'] = $viewPinjam->orderBy('id_peminjaman', 'asc')->paginate(10);
         $data['pager'] = $viewPinjam->pager;
-        $data['nomor'] = nomor($this->request->getVar('page'), 5);
+        $data['nomor'] = nomor($this->request->getVar('page'), 10);
 
         // update status peminjaman jika sudah overdue
         $dataPeminjaman = $viewPinjam->orderBy('id_peminjaman', 'asc')->where('status', 'ongoing')->findAll();
