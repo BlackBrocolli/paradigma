@@ -18,7 +18,13 @@ class Pinjam extends BaseController
         }
         $data['title'] = 'Peminjaman';
         $viewPinjam = new ViewPinjamModel();
-        $data['pinjam'] = $viewPinjam->orderBy('id_peminjaman', 'asc')->paginate(10);
+
+        if ($this->request->getGet("cari")) {
+            $data['pinjam'] = $viewPinjam->like('nrp', $this->request->getGet("cari"), 'both')->orLike('nama', $this->request->getGet("cari"), 'both')->orLike('indeks_buku', $this->request->getGet("cari"), 'both')->orLike('judul', $this->request->getGet("cari"), 'both')->paginate(5);
+        } else {
+            $data['pinjam'] = $viewPinjam->orderBy('id_peminjaman', 'asc')->paginate(10);
+        }
+
         $data['pager'] = $viewPinjam->pager;
         $data['nomor'] = nomor($this->request->getVar('page'), 10);
 
@@ -218,7 +224,7 @@ class Pinjam extends BaseController
 
             // stok buku bertambah +1
             // ambil id_buku dari tabel copy buku
-            $dataCopyBuku = $copyBuku->where('indeks_buku', $indeks_buku)->first();
+            $dataCopyBuku = $copyBuku->where('indeks_buku', $indeks_buku)->withDeleted()->first();
             $id_buku = $dataCopyBuku->id_buku;
 
             // ambil stok buku lama

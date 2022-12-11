@@ -13,9 +13,16 @@ class Reservasi extends BaseController
         if (session()->get('level') !== 'admin') { // jika bukan admin
             return redirect()->back();
         }
-        $data['title'] = 'Reservasi';
+
         $reservasiModel = new ReservasiModel();
-        $data['reservasi'] = $reservasiModel->orderBy('tanggal_reservasi', 'desc')->paginate(10);
+
+        if ($this->request->getGet("cari")) {
+            $data['reservasi'] = $reservasiModel->join('mahasiswa', 'mahasiswa.nrp = reservasi.nrp')->join('copy_buku', 'copy_buku.indeks_buku = reservasi.indeks_buku')->like('tanggal_reservasi', $this->request->getGet("cari"), 'both')->orLike('reservasi.nrp', $this->request->getGet("cari"), 'both')->orLike('reservasi.indeks_buku', $this->request->getGet("cari"), 'both')->orLike('reservasi.status', $this->request->getGet("cari"), 'both')->orderBy('tanggal_reservasi', 'desc')->paginate(5);
+        } else {
+            $data['reservasi'] = $reservasiModel->orderBy('tanggal_reservasi', 'desc')->paginate(10);
+        }
+
+        $data['title'] = 'Reservasi';
         $data['pager'] = $reservasiModel->pager;
         $data['nomor'] = nomor($this->request->getVar('page'), 10);
 

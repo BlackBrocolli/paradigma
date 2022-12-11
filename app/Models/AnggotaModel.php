@@ -11,6 +11,8 @@ class AnggotaModel extends Model
     protected $returnType     = 'object';
     protected $allowedFields = ['nama', 'prodi', 'angkatan', 'nrp'];
     protected $useTimestamps = false;
+    protected $useSoftDeletes = true;
+    protected $deletedField = 'deleted_at';
 
     protected $validationRules = [
         'nama' => 'required',
