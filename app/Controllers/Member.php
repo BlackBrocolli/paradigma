@@ -67,11 +67,11 @@ class Member extends BaseController
             'angkatan' => $angkatan,
         ]);
 
-        if($result !== false){
+        if ($result !== false) {
             $users = new UsersModel();
             $users->insert([
                 'name' => $this->request->getPost("nama_mahasiswa"),
-                'email' => $nrp.".mhs.stiki.ac.id",
+                'email' => $nrp . "@mhs.stiki.ac.id",
                 'nrp' => $nrp,
                 'password' => password_hash($nrp, PASSWORD_BCRYPT)
             ]);
