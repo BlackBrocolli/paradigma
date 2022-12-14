@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\AnggotaModel;
+use App\Models\UsersModel;
 
 class Member extends BaseController
 {
@@ -11,9 +12,16 @@ class Member extends BaseController
         if (session()->get('level') !== 'admin') { // jika bukan admin
             return redirect()->back();
         }
-        $data['title'] = 'List Mahasiswa';
+
         $anggota = new AnggotaModel();
-        $data['anggota'] = $anggota->orderBy('nrp', 'asc')->paginate(5);
+
+        if ($this->request->getGet("cari")) {
+            $data['anggota'] = $anggota->like('nrp', $this->request->getGet("cari"), 'both')->orLike('nama', $this->request->getGet("cari"), 'both')->orLike('prodi', $this->request->getGet("cari"), 'both')->orLike('angkatan', $this->request->getGet("cari"), 'both')->orderBy('nrp', 'asc')->paginate(5);
+        } else {
+            $data['anggota'] = $anggota->orderBy('nrp', 'asc')->paginate(5);
+        }
+
+        $data['title'] = 'List Mahasiswa';
         $data['pager'] = $anggota->pager;
         $data['nomor'] = nomor($this->request->getVar('page'), 5);
         return view('admin/list_anggota', $data);
@@ -59,6 +67,16 @@ class Member extends BaseController
             'angkatan' => $angkatan,
         ]);
 
+        if ($result !== false) {
+            $users = new UsersModel();
+            $users->insert([
+                'name' => $this->request->getPost("nama_mahasiswa"),
+                'email' => $nrp . "@mhs.stiki.ac.id",
+                'nrp' => $nrp,
+                'password' => password_hash($nrp, PASSWORD_BCRYPT)
+            ]);
+        }
+
         // cek apakah ada field kosong
         if ($this->request->getPost("nama_mahasiswa") == "" || $this->request->getPost("angkatan") == "") {
             return redirect()->back()
@@ -76,6 +94,8 @@ class Member extends BaseController
         $data['delete'] = $anggota->find($kode_anggota);
 
         if ($this->request->getMethod() === 'post') {
+            $users = new UsersModel();
+            $users->where('nrp', $kode_anggota)->delete();
             $anggota->delete($kode_anggota);
 
             return redirect()->to('/home/anggota')
@@ -101,7 +121,7 @@ class Member extends BaseController
         $anggota = new AnggotaModel();
 
         $result = $anggota->update($kode_anggota, [
-            'nama_anggota' => $this->request->getPost("nama_anggota")
+            'nama' => $this->request->getPost("nama_anggota")
         ]);
 
         return redirect()->to('/home/anggota')

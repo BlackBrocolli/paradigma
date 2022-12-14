@@ -43,6 +43,20 @@
                 <span>Copy Buku</span></a>
         </li>
 
+        <!-- Nav Item - ebook buku -->
+        <li class="nav-item">
+            <a class="nav-link" href="<?= base_url(); ?>/home/ebook">
+                <i class="fas fa-fw fa-book"></i>
+                <span>Ebook</span></a>
+        </li>
+
+        <!-- Nav Item - tugas akhir -->
+        <li class="nav-item">
+            <a class="nav-link" href="<?= base_url(); ?>/home/tugasakhir">
+                <i class="fas fa-fw fa-user-graduate"></i>
+                <span>Tugas Akhir</span></a>
+        </li>
+
         <!-- Nav Item - List mahasiswa -->
         <li class="nav-item">
             <a class="nav-link" href="<?= base_url('/home/anggota'); ?>">
@@ -59,7 +73,7 @@
 
         <!-- Nav Item - reservasi -->
         <li class="nav-item">
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="<?= base_url('/home/reservasi'); ?>">
                 <i class="fas fa-fw fa-calendar"></i>
                 <span>Reservasi</span></a>
         </li>

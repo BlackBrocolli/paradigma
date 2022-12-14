@@ -14,6 +14,13 @@
             <a href="<?= base_url(); ?>/home/addpeminjaman" class="btn btn-primary">Tambah Peminjaman</a>
             <br><br>
 
+            <form action="/home/peminjaman" method="get">
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" placeholder="Search..." aria-label="Search..." aria-describedby="button-addon2" name="cari">
+                    <button class="btn btn-primary" type="submit" id="button-addon2">Search</button>
+                </div>
+            </form>
+
             <!-- tampilkan info jika ada -->
             <?php if (!empty(session()->getFlashdata('info'))) : ?>
                 <div class="alert alert-warning alert-dismissible fade show" role="alert">
@@ -47,10 +54,12 @@
                         <td><?php echo $row->tanggal_pinjam; ?></td>
                         <td><?php echo $row->tanggal_estimasi_kembali; ?></td>
                         <td><?php echo $row->tanggal_kembali; ?></td>
-                        <td><?php echo $row->status; ?></td>
+                        <td id="status"><?php echo $row->status; ?></td>
                         <td>
-                            <?php if ($row->status == 'ongoing') : ?>
-                                <a title="Tambah waktu pinjam" class="btn btn-warning" href="<?= base_url(); ?>/home/edittanggal/<?= $row->id_peminjaman; ?>"><i class="fas fa-fw fa-calendar-plus" style="margin: -4px"></i></a>
+                            <?php if ($row->status == 'ongoing' || $row->status == 'overdue') : ?>
+                                <?php if ($row->status !== 'overdue') : ?>
+                                    <a title="Tambah waktu pinjam" class="btn btn-warning" href="<?= base_url(); ?>/home/updatetanggal/<?= $row->id_peminjaman; ?>/<?= $row->indeks_buku; ?>"><i class="fas fa-fw fa-calendar-plus" style="margin: -4px"></i></a>
+                                <?php endif; ?>
                                 <a title="Peminjaman selesai" class="btn btn-success" href="<?= base_url(); ?>/home/editstatus/<?= $row->id_peminjaman; ?>/<?= $row->indeks_buku; ?>"><i class="fas fa-fw fa-check" style="margin: -4px"></i></a>
                             <?php endif; ?>
                         </td>

@@ -55,6 +55,22 @@ $routes->get('/home/editcopybuku/(:any)', 'CopyBuku::editcopybuku/$1', ['filter'
 $routes->post('/home/updatecopybuku/(:any)', 'CopyBuku::updatecopybuku/$1', ['filter' => 'authfilter']);
 $routes->get('/home/addcopybuku', 'CopyBuku::addcopybuku', ['filter' => 'authfilter']);
 $routes->post('/home/createcopybuku', 'CopyBuku::createcopybuku', ['filter' => 'authfilter']);
+// home/dashboard/ebook
+$routes->get('/home/ebook', 'Ebook::index', ['filter' => 'authfilter']);
+$routes->get('home/addebook', 'Ebook::addebook', ['filter' => 'authfilter']);
+$routes->post('home/createebook', 'Ebook::createebook', ['filter' => 'authfilter']);
+$routes->get('home/deleteebook/(:any)', 'Ebook::deleteebook/$1', ['filter' => 'authfilter']);
+$routes->post('home/deleteebook/(:any)', 'Ebook::deleteebook/$1', ['filter' => 'authfilter']);
+$routes->get('home/editebook/(:any)', 'Ebook::editebook/$1', ['filter' => 'authfilter']);
+$routes->post('home/updateebook/(:any)', 'Ebook::updateebook/$1', ['filter' => 'authfilter']);
+// home/dashboard/tugas akhir
+$routes->get('/home/tugasakhir', 'TugasAkhir::index', ['filter' => 'authfilter']);
+$routes->get('/home/addtugasakhir', 'TugasAkhir::addtugasakhir', ['filter' => 'authfilter']);
+$routes->post('/home/createtugasakhir', 'TugasAkhir::createtugasakhir', ['filter' => 'authfilter']);
+$routes->get('/home/edittugasakhir/(:any)', 'TugasAkhir::edittugasakhir/$1', ['filter' => 'authfilter']);
+$routes->post('/home/updatetugasakhir/(:any)', 'TugasAkhir::updatetugasakhir/$1', ['filter' => 'authfilter']);
+$routes->get('/home/deletetugasakhir/(:any)', 'TugasAkhir::deletetugasakhir/$1', ['filter' => 'authfilter']);
+$routes->post('/home/deletetugasakhir/(:any)', 'TugasAkhir::deletetugasakhir/$1', ['filter' => 'authfilter']);
 // my profile
 $routes->get('/home/myprofile', 'Home::myprofile', ['filter' => 'authfilter']);
 // anggota
@@ -70,12 +86,18 @@ $routes->get('/home/peminjaman', 'Pinjam::index', ['filter' => 'authfilter']);
 $routes->get('/home/addpeminjaman', 'Pinjam::addpeminjaman', ['filter' => 'authfilter']);
 $routes->post('home/createpeminjaman', 'Pinjam::createpeminjaman', ['filter' => 'authfilter']);
 $routes->get('/home/edittanggal/(:any)', 'Pinjam::edittanggal/$1', ['filter' => 'authfilter']);
-$routes->post('/home/updatetanggal/(:any)', 'Pinjam::updatetanggal/$1', ['filter' => 'authfilter']);
+$routes->post('/home/updatetanggal/(:any)/(:any)', 'Pinjam::updatetanggal/$1/$2', ['filter' => 'authfilter']);
+$routes->get('/home/updatetanggal/(:any)', 'Pinjam::updatetanggal/$1', ['filter' => 'authfilter']);
 $routes->get('/home/editstatus/(:any)/(:any)', 'Pinjam::editstatus/$1/$2', ['filter' => 'authfilter']);
 $routes->post('/home/editstatus/(:any)/(:any)', 'Pinjam::editstatus/$1/$2', ['filter' => 'authfilter']);
+// reservasi
+$routes->get('/home/reservasi', 'Reservasi::index', ['filter' => 'authfilter']);
 // mahasiswa punya
 $routes->get('/home/mhs', 'Home::index_mhs', ['filter' => 'authfilter']);
 $routes->get('/home/mhs/detailbuku', 'Home::mhs_detailbuku', ['filter' => 'authfilter']);
+
+// for debugging
+$routes->get('/home/debugging', 'Home::debugging', ['filter' => 'authfilter']);
 /*
  * --------------------------------------------------------------------
  * Additional Routing

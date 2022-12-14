@@ -147,6 +147,16 @@
         }
     }
 
+    if (isset($mahasiswa)) {
+        $dataMhs = [];
+        foreach ($mahasiswa as $row) {
+            $dataMhs[] = [
+                'label'     =>  $row->nrp . " - " . $row->nama,
+                'value'     =>  $row->nrp
+            ];
+        }
+    }
+
     ?>
     <script>
         // auto complete inputan buku
@@ -178,6 +188,18 @@
             var auto_complete_nrp = new Autocomplete(document.getElementById('indeks_buku'), {
                 data: <?php if (isset($copy_buku)) {
                             echo json_encode($dataCopyBuku);
+                        } ?>,
+                maximumItems: 10,
+                highlightTyped: true,
+                highlightClass: 'fw-bold text-primary'
+            });
+        <?php } ?>
+
+        // auto complete inputan tugas akhir
+        <?php if (isset($mahasiswa)) { ?>
+            var auto_complete_nrp = new Autocomplete(document.getElementById('penulis'), {
+                data: <?php if (isset($mahasiswa)) {
+                            echo json_encode($dataMhs);
                         } ?>,
                 maximumItems: 10,
                 highlightTyped: true,
