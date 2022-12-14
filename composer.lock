@@ -708,6 +708,12 @@
                 "testing",
                 "xunit"
             ],
+
+            "support": {
+                "issues": "https://github.com/sebastianbergmann/php-code-coverage/issues",
+                "source": "https://github.com/sebastianbergmann/php-code-coverage/tree/9.2.19"
+            },
+
             "funding": [
                 {
                     "url": "https://github.com/sebastianbergmann",
@@ -2184,5 +2190,7 @@
         "php": "^7.3 || ^8.0"
     },
     "platform-dev": [],
-    "plugin-api-version": "1.1.0"
+
+    "plugin-api-version": "2.3.0"
+
 }
