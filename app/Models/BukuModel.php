@@ -9,7 +9,7 @@ class BukuModel extends Model
     protected $table      = 'buku';
     protected $primaryKey = 'id_buku';
     protected $returnType     = 'object';
-    protected $allowedFields = ['judul', 'penulis', 'penerbit', 'stok', 'cover'];
+    protected $allowedFields = ['judul', 'penulis', 'penerbit', 'stok', 'deskripsi', 'cover'];
     protected $useSoftDeletes = true;
     protected $useTimestamps = false;
     protected $deletedField  = 'deleted_at';
@@ -19,6 +19,7 @@ class BukuModel extends Model
         'penulis' => 'required',
         'penerbit' => 'required',
         'stok' => 'required|greater_than[0]',
+        'deskripsi' => 'required',
         'sampul' => [
             'rules' => 'uploaded[sampul]|is_image[sampul]|mime_in[sampul,image/jpg,image/png,image/jpeg,]',
             'errors' => [
