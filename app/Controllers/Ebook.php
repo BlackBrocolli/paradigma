@@ -59,7 +59,7 @@ class Ebook extends BaseController
             'cover' => $coverName
         ]);
 
-        if($result == true){
+        if($result !== false){
             $cover->move('cover_ebook', $coverName);
             $fileEbook->move('file_ebook', $fileName);
             return redirect()->to('home/ebook')->with('info', 'Berhasil menambahkan data');

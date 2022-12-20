@@ -63,10 +63,11 @@ class Home extends BaseController
             'penulis' => $this->request->getPost("penulis"),
             'penerbit' => $this->request->getPost("penerbit"),
             'stok' => $this->request->getPost("stok"),
+            'deskripsi' => $this->request->getPost("deskripsi"),
             'cover' => $newCoverName
         ]);
 
-        if ($result == true) {
+        if ($result !== false) {
             $cover->move('cover', $newCoverName);
             $this->createCopyBuku($this->request->getPost("judul"), $this->request->getPost("penulis"), $this->request->getPost("stok"), $buku->insertID());
             return redirect()->to("/home/buku")
@@ -162,10 +163,11 @@ class Home extends BaseController
             'penulis' => $this->request->getPost("penulis"),
             'penerbit' => $this->request->getPost("penerbit"),
             'stok' => $this->request->getPost("stok"),
+            'deskripsi' => $this->request->getPost("deskripsi"),
             'cover' => $namaSampul
         ]);
 
-        return redirect()->to('/home')
+        return redirect()->to('/home/buku')
             ->with('info', 'Berhasil mengupdate data');
     }
 
