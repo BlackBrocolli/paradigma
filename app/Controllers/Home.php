@@ -10,18 +10,33 @@ class Home extends BaseController
 
     public function index()
     {
+        if (session()->get('level') !== 'admin') { // jika bukan admin
+            return redirect()->back();
+        }
+
         $data['title'] = 'Dashboard';
         return view('admin/dashboard', $data);
     }
 
     public function index_mhs()
     {
+        $buku = new BukuModel();
+
+        if ($this->request->getGet("cari")) {
+            $data['buku'] = $buku->like('judul', $this->request->getGet("cari"), 'both')->orLike('penulis', $this->request->getGet("cari"), 'both')->orLike('penerbit', $this->request->getGet("cari"), 'both')->orderBy('judul', 'asc')->findAll();
+        } else {
+            $data['buku'] = $buku->orderBy('judul', 'asc')->findAll();
+        }
+
         $data['title'] = 'Dashboard';
         return view('mahasiswa/index', $data);
     }
 
-    public function mhs_detailbuku()
+    public function mhs_detailbuku($id)
     {
+        $bukuModel = new BukuModel();
+
+        $data['buku'] = $bukuModel->find($id);
         $data['title'] = 'Detail buku';
         return view('mahasiswa/detailbuku', $data);
     }
