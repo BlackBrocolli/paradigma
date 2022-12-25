@@ -41,6 +41,24 @@ class Home extends BaseController
         return view('mahasiswa/detailbuku', $data);
     }
 
+    public function mhs_ebook()
+    {
+        $data['title'] = 'Ebook';
+        return view('mahasiswa/ebook', $data);
+    }
+
+    public function mhs_detail_ebook()
+    {
+        $data['title'] = 'Detail Ebook';
+        return view('mahasiswa/detailebook', $data);
+    }
+
+    public function mhs_history()
+    {
+        $data['title'] = 'History';
+        return view('mahasiswa/history', $data);
+    }
+
     public function readbuku()
     {
         $data['title'] = 'Buku';
