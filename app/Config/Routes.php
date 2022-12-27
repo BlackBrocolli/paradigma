@@ -96,7 +96,7 @@ $routes->get('/home/reservasi', 'Reservasi::index', ['filter' => 'authfilter']);
 $routes->get('/home/mhs', 'Home::index_mhs', ['filter' => 'authfilter']);
 $routes->get('/home/mhs/detailbuku/(:any)', 'Home::mhs_detailbuku/$1', ['filter' => 'authfilter']);
 $routes->get('/home/mhs/ebook', 'Home::mhs_ebook', ['filter' => 'authfilter']);
-$routes->get('/home/mhs/ebook/detail', 'Home::mhs_detail_ebook', ['filter' => 'authfilter']);
+$routes->get('/home/mhs/ebook/detail/(:any)', 'Home::mhs_detail_ebook/$1', ['filter' => 'authfilter']);
 $routes->get('/home/mhs/history', 'Home::mhs_history', ['filter' => 'authfilter']);
 
 // for debugging

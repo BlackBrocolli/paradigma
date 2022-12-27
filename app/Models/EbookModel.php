@@ -9,7 +9,7 @@ class EbookModel extends Model
     protected $table      = 'ebook';
     protected $primaryKey = 'id_ebook';
     protected $returnType     = 'object';
-    protected $allowedFields = ['id_ebook', 'judul_ebook', 'path', 'penulis', 'halaman', 'cover'];
+    protected $allowedFields = ['id_ebook', 'judul_ebook', 'path', 'penulis', 'deskripsi', 'halaman', 'cover'];
     protected $useSoftDeletes = true;
     protected $useTimestamps = false;
     protected $deletedField  = 'deleted_at';
@@ -17,6 +17,7 @@ class EbookModel extends Model
     protected $validationRules = [
         'judul_ebook' => 'required',
         'penulis' => 'required',
+        'deskripsi' => 'required',
         'halaman' => 'required',
         'sampul' => [
             'rules' => 'uploaded[sampul]|is_image[sampul]|mime_in[sampul,image/jpg,image/png,image/jpeg,]',

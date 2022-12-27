@@ -3,7 +3,7 @@
 <?= $this->section('page-content'); ?>
 
 <div class="center">
-    <img class="mx-auto d-block" src="https://th.bing.com/th/id/R.5933333ffe2cbfbfef0b4d9a8c9873cf?rik=6VNlXFPdGnLRUw&riu=http%3a%2f%2fdimensipers.com%2fwp-content%2fuploads%2f2020%2f04%2fimages-24.jpeg&ehk=AkmKMkfequUKBfhTAqaooVDrLR4VUT4yhhQ9hTAuqCE%3d&risl=&pid=ImgRaw&r=0" alt="..." />
+    <img class="mx-auto d-block" src="/cover/<?= $buku->cover ?>" alt="..." />
 </div>
 <div class="center">
 
@@ -25,6 +25,35 @@
         </figure>
         <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
             <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">Reservasi</a></div>
+        </div>
+        <div class="fs-5 mb-5">
+            <figure class="text-center">
+                <blockquote class="blockquote">
+                    <h2 class="fw-bolder" style="text-align: center"> = Daftar Copy Buku = </h2><br>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Index Buku</th>
+                                <th scope="col">Kondisi</th>
+                                <th scope="col">Handle</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php $i = 1; ?>
+                            <?php foreach($copyBuku as $dataCopyBuku) : ?>
+                            <tr>
+                                <th scope="row"><?= $i ?></th>
+                                <td><?= $dataCopyBuku->indeks_buku ?></td>
+                                <td><?= $dataCopyBuku->kondisi ?></td>
+                                <td><?= $dataCopyBuku->status ?></td>
+                            </tr>
+                            <?php $i++; ?>
+                            <?php endforeach; ?>                            
+                        </tbody>
+                    </table>
+                </blockquote>
+            </figure>
         </div>
     </div>
 </div>

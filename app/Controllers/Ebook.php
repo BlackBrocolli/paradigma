@@ -56,6 +56,7 @@ class Ebook extends BaseController
             'path' => $fileName,
             'penulis' => $this->request->getPost('penulis'),
             'halaman' => $this->request->getPost('halaman'),
+            'deskripsi' => $this->request->getPost('deskripsi'),
             'cover' => $coverName
         ]);
 
