@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Models\BukuModel;
 use App\Models\CopyBukuModel;
+use App\Models\EbookModel;
 
 class Home extends BaseController
 {
@@ -35,21 +36,35 @@ class Home extends BaseController
     public function mhs_detailbuku($id)
     {
         $bukuModel = new BukuModel();
+        $copyBukuModel = new CopyBukuModel();
 
         $data['buku'] = $bukuModel->find($id);
+        $data['copyBuku'] = $copyBukuModel->where('id_buku', $id)->findAll();
         $data['title'] = 'Detail buku';
         return view('mahasiswa/detailbuku', $data);
     }
 
     public function mhs_ebook()
     {
+        $ebook = new EbookModel();
+        
+        if ($this->request->getGet("cari")) {
+            $data['ebook'] = $ebook->like('judul_ebook', $this->request->getGet("cari"), 'both')->orLike('penulis', $this->request->getGet("cari"), 'both')->orderBy('judul', 'asc')->findAll();
+        } else {
+            $data['ebook'] = $ebook->orderBy('judul_ebook', 'asc')->findAll();
+        }
+
         $data['title'] = 'Ebook';
         return view('mahasiswa/ebook', $data);
     }
 
-    public function mhs_detail_ebook()
+    public function mhs_detail_ebook($id)
     {
+        $ebook = new EbookModel();
+
+        $data['ebook'] = $ebook->find($id);
         $data['title'] = 'Detail Ebook';
+
         return view('mahasiswa/detailebook', $data);
     }
 
