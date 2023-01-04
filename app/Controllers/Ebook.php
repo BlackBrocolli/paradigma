@@ -7,7 +7,7 @@ use App\Models\EbookModel;
 class Ebook extends BaseController
 {
     public function index()
-    {  
+    {
         if (session()->get('level') !== 'admin') { // jika bukan admin
             return redirect()->back();
         }
@@ -28,7 +28,8 @@ class Ebook extends BaseController
         return view('admin/list_ebook', $data);
     }
 
-    public function addebook(){
+    public function addebook()
+    {
         if (session()->get('level') !== 'admin') { // jika bukan admin
             return redirect()->back();
         }
@@ -38,7 +39,8 @@ class Ebook extends BaseController
         return view('admin/add_ebook', $data);
     }
 
-    public function createebook(){
+    public function createebook()
+    {
         if (session()->get('level') !== 'admin') { // jika bukan admin
             return redirect()->back();
         }
@@ -60,16 +62,17 @@ class Ebook extends BaseController
             'cover' => $coverName
         ]);
 
-        if($result !== false){
+        if ($result !== false) {
             $cover->move('cover_ebook', $coverName);
             $fileEbook->move('file_ebook', $fileName);
             return redirect()->to('home/ebook')->with('info', 'Berhasil menambahkan data');
-        }else{
+        } else {
             return redirect()->back()->withInput()->with('errors', $ebookModel->errors());
         }
     }
 
-    public function deleteebook($id){
+    public function deleteebook($id)
+    {
         if (session()->get('level') !== 'admin') { // jika bukan admin
             return redirect()->back();
         }
@@ -87,7 +90,8 @@ class Ebook extends BaseController
         return view('admin/hapus_ebook', $data);
     }
 
-    public function editebook($id){
+    public function editebook($id)
+    {
         if (session()->get('level') !== 'admin') { // jika bukan admin
             return redirect()->back();
         }
@@ -99,7 +103,8 @@ class Ebook extends BaseController
         return view('admin/update_ebook', $data);
     }
 
-    public function updateebook($id){
+    public function updateebook($id)
+    {
         $ebookModel = new EbookModel();
 
         $cover = $this->request->getFile('sampul');
@@ -131,5 +136,15 @@ class Ebook extends BaseController
         ]);
 
         return redirect()->to('/home/ebook')->with('info', 'Berhasil mengupdate data');
+    }
+
+    public function bacaebook()
+    {
+        if (session()->get('level') !== 'anggota') { // jika bukan admin
+            return redirect()->back();
+        }
+        $data['title'] = "Baca ebook";
+
+        return view('mahasiswa/bacaebook', $data);
     }
 }

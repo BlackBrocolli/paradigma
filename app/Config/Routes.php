@@ -63,6 +63,7 @@ $routes->get('home/deleteebook/(:any)', 'Ebook::deleteebook/$1', ['filter' => 'a
 $routes->post('home/deleteebook/(:any)', 'Ebook::deleteebook/$1', ['filter' => 'authfilter']);
 $routes->get('home/editebook/(:any)', 'Ebook::editebook/$1', ['filter' => 'authfilter']);
 $routes->post('home/updateebook/(:any)', 'Ebook::updateebook/$1', ['filter' => 'authfilter']);
+$routes->get('/home/history/bacaebook', 'Ebook::bacaebook', ['filter' => 'authfilter']);
 // home/dashboard/tugas akhir
 $routes->get('/home/tugasakhir', 'TugasAkhir::index', ['filter' => 'authfilter']);
 $routes->get('/home/addtugasakhir', 'TugasAkhir::addtugasakhir', ['filter' => 'authfilter']);
