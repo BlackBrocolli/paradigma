@@ -85,6 +85,13 @@
                 <span>Peminjaman</span></a>
         </li>
 
+        <!-- Nav Item - Peminjaman -->
+        <li class="nav-item">
+            <a class="nav-link" href="<?= base_url('/home/presensi'); ?>">
+                <i class="fas fa-fw fa-door-open"></i>
+                <span>Presensi</span></a>
+        </li>
+
         <!-- Divider -->
         <hr class="sidebar-divider d-none d-md-block">
 
