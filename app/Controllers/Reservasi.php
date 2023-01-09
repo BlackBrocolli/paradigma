@@ -44,4 +44,32 @@ class Reservasi extends BaseController
 
         return view('admin/reservasi', $data);
     }
+
+    public function process()
+    {
+        // tangkap data POST tanggal
+        $tanggal = $_POST['tanggal'];
+        // tanggal tidak boleh kosong
+
+        // tangkap nrp dari session
+        $nrp = session()->get('nrp');
+        // tangkap juga indeks buku dari input field hidden
+        $indeks_buku = $_POST['indeks_buku'];
+
+
+        // debugging
+        $data['tanggal'] = $tanggal;
+        $data['nrp'] = $nrp;
+        $data['indeks_buku'] = $indeks_buku;
+
+        return view('index', $data);
+
+
+        // cek tanggal
+        // tidak boleh reservasi di masa lalu
+
+        // proses reservasi
+
+
+    }
 }
