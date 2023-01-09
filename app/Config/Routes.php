@@ -55,6 +55,8 @@ $routes->get('/home/editcopybuku/(:any)', 'CopyBuku::editcopybuku/$1', ['filter'
 $routes->post('/home/updatecopybuku/(:any)', 'CopyBuku::updatecopybuku/$1', ['filter' => 'authfilter']);
 $routes->get('/home/addcopybuku', 'CopyBuku::addcopybuku', ['filter' => 'authfilter']);
 $routes->post('/home/createcopybuku', 'CopyBuku::createcopybuku', ['filter' => 'authfilter']);
+// admin presensi
+$routes->get('/home/presensi', 'Presensi::index', ['filter' => 'authfilter']);
 // home/dashboard/ebook
 $routes->get('/home/ebook', 'Ebook::index', ['filter' => 'authfilter']);
 $routes->get('home/addebook', 'Ebook::addebook', ['filter' => 'authfilter']);
@@ -100,6 +102,9 @@ $routes->get('/home/mhs/detailbuku/(:any)', 'Home::mhs_detailbuku/$1', ['filter'
 $routes->get('/home/mhs/ebook', 'Home::mhs_ebook', ['filter' => 'authfilter']);
 $routes->get('/home/mhs/ebook/detail/(:any)', 'Home::mhs_detail_ebook/$1', ['filter' => 'authfilter']);
 $routes->get('/home/mhs/history', 'Home::mhs_history', ['filter' => 'authfilter']);
+// absensi
+$routes->get('/absensi', 'Absensi::index');
+$routes->post('/absensi/input', 'Absensi::input');
 
 // for debugging
 $routes->get('/home/debugging', 'Home::debugging', ['filter' => 'authfilter']);
