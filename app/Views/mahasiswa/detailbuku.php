@@ -1,6 +1,16 @@
 <?= $this->extend('/mahasiswa/templates/index'); ?>
 
 <?= $this->section('page-content'); ?>
+<!-- tampilkan info jika ada -->
+<div class="d-flex justify-content-center">
+    <div class="mx-auto">
+        <?php if (!empty(session()->getFlashdata('info'))) : ?>
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                <?php echo session()->getFlashdata('info'); ?>
+            </div>
+        <?php endif; ?>
+    </div>
+</div>
 
 <div class="center">
     <img class="mx-auto d-block" src="/cover/<?= $buku->cover ?>" alt="..." />
@@ -49,7 +59,7 @@
                                     <td><?= $dataCopyBuku->status ?></td>
                                     <td>
                                         <?php if ($dataCopyBuku->status == "tersedia") : ?>
-                                            <div class="text-center"><a class="btn btn-outline-dark mt-auto btn-reservasi" data-toggle="modal" data-target="#myModal" id="btn-reservasi">Reservasi</a></div>
+                                            <div class="text-center"><a class="btn btn-outline-dark mt-auto btn-reservasi" href="/home/mhs/tglreservasi/<?= $id_buku ?>/<?= $dataCopyBuku->indeks_buku ?>" id="btn-reservasi">Reservasi</a></div>
                                         <?php endif; ?>
                                     </td>
                                 </tr>

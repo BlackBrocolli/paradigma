@@ -40,6 +40,7 @@ class Home extends BaseController
 
         $data['buku'] = $bukuModel->find($id);
         $data['copyBuku'] = $copyBukuModel->where('id_buku', $id)->findAll();
+        $data['id_buku'] = $id;
         $data['title'] = 'Detail buku';
         return view('mahasiswa/detailbuku', $data);
     }
@@ -47,7 +48,7 @@ class Home extends BaseController
     public function mhs_ebook()
     {
         $ebook = new EbookModel();
-        
+
         if ($this->request->getGet("cari")) {
             $data['ebook'] = $ebook->like('judul_ebook', $this->request->getGet("cari"), 'both')->orLike('penulis', $this->request->getGet("cari"), 'both')->orderBy('judul', 'asc')->findAll();
         } else {

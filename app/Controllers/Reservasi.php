@@ -54,22 +54,38 @@ class Reservasi extends BaseController
         // tangkap nrp dari session
         $nrp = session()->get('nrp');
         // tangkap juga indeks buku dari input field hidden
-        $indeks_buku = $_POST['indeks_buku'];
-
-
-        // debugging
-        $data['tanggal'] = $tanggal;
-        $data['nrp'] = $nrp;
-        $data['indeks_buku'] = $indeks_buku;
-
-        return view('index', $data);
-
+        // $indeks_buku = $indeks;
+        $indeks_buku = $_POST['indeks'];
+        $id_buku = $_POST['id_buku'];
 
         // cek tanggal
-        // tidak boleh reservasi di masa lalu
+        // tanggal tidak boleh kosong
+        if ($tanggal == '') {
+            return redirect()->back()
+                ->with('info', 'Tanggal tidak boleh kosong!');
+        } else if (strtotime($tanggal) < strtotime('now')) { // tidak boleh reservasi di masa lalu
+            return redirect()->back()
+                ->with('info', 'Maaf, reservasi maksimal 1 hari sebelumnya.');
+        }
 
         // proses reservasi
+        $reservasi = new ReservasiModel();
+        $result = $reservasi->insert([
+            'nrp' => $nrp,
+            'tanggal_reservasi' => $tanggal,
+            'indeks_buku' => $indeks_buku,
+        ]);
 
+        return redirect()->to('/home/mhs/detailbuku/' . $id_buku)
+            ->with('info', 'Berhasil reservasi buku!');
+    }
 
+    public function tglreservasi($id_buku, $indeks_buku)
+    {
+
+        $data['indeks_buku'] = $indeks_buku;
+        $data['id_buku'] = $id_buku;
+        $data['title'] = 'Reservasi';
+        return view('mahasiswa/reservasi', $data);
     }
 }
