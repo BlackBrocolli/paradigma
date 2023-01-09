@@ -29,7 +29,8 @@ class Login extends BaseController
                     'email' => $dataUser->email,
                     'name' => $dataUser->name,
                     'logged_in' => TRUE,
-                    'level' => $dataUser->level
+                    'level' => $dataUser->level,
+                    'nrp' => $dataUser->nrp
                 ]);
 
                 // cek apakah admin atau mahasiswa

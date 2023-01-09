@@ -24,7 +24,6 @@
             <p class="justify-content-center"><?= $buku->deskripsi ?></p>
         </figure>
         <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-            <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">Reservasi</a></div>
         </div>
         <div class="fs-5 mb-5">
             <figure class="text-center">
@@ -36,20 +35,26 @@
                                 <th scope="col">#</th>
                                 <th scope="col">Index Buku</th>
                                 <th scope="col">Kondisi</th>
-                                <th scope="col">Handle</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php $i = 1; ?>
-                            <?php foreach($copyBuku as $dataCopyBuku) : ?>
-                            <tr>
-                                <th scope="row"><?= $i ?></th>
-                                <td><?= $dataCopyBuku->indeks_buku ?></td>
-                                <td><?= $dataCopyBuku->kondisi ?></td>
-                                <td><?= $dataCopyBuku->status ?></td>
-                            </tr>
-                            <?php $i++; ?>
-                            <?php endforeach; ?>                            
+                            <?php foreach ($copyBuku as $dataCopyBuku) : ?>
+                                <tr>
+                                    <th scope="row"><?= $i ?></th>
+                                    <td><?= $dataCopyBuku->indeks_buku ?></td>
+                                    <td><?= $dataCopyBuku->kondisi ?></td>
+                                    <td><?= $dataCopyBuku->status ?></td>
+                                    <td>
+                                        <?php if ($dataCopyBuku->status == "tersedia") : ?>
+                                            <div class="text-center"><a class="btn btn-outline-dark mt-auto btn-reservasi" data-toggle="modal" data-target="#myModal" id="btn-reservasi">Reservasi</a></div>
+                                        <?php endif; ?>
+                                    </td>
+                                </tr>
+                                <?php $i++; ?>
+                            <?php endforeach; ?>
                         </tbody>
                     </table>
                 </blockquote>
@@ -57,5 +62,41 @@
         </div>
     </div>
 </div>
+
+<!-- Reservasi modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel">Pilih tanggal reservasi</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <form action="<?= base_url('/home/mhs/reservasi') ?>" method="post">
+                <div class="modal-body">
+                    <label>Tanggal</label>
+                    <input type="text" name="tanggal" id="tanggal" data-provide="datepicker">
+                    <input type="hidden" name="indeks_buku" id="indeks_buku" value="">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<!-- Menambahkan library jQuery dari CDN -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- kirimkan data $dataCopyBuku->indeks_buku ke dalam input field dengan nama "indeks_buku" pada modal reservasi -->
+<script>
+    $(document).ready(function() {
+        $('#btn-reservasi').on('click', function() {
+            $('#indeks_buku').val('<?= $dataCopyBuku->indeks_buku ?>');
+        });
+    });
+</script>
 
 <?= $this->endSection(); ?>

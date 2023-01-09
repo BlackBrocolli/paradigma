@@ -95,6 +95,7 @@ $routes->get('/home/editstatus/(:any)/(:any)', 'Pinjam::editstatus/$1/$2', ['fil
 $routes->post('/home/editstatus/(:any)/(:any)', 'Pinjam::editstatus/$1/$2', ['filter' => 'authfilter']);
 // reservasi
 $routes->get('/home/reservasi', 'Reservasi::index', ['filter' => 'authfilter']);
+$routes->post('/home/mhs/reservasi', 'Reservasi::process', ['filter' => 'authfilter']);
 // mahasiswa punya
 $routes->get('/home/mhs', 'Home::index_mhs', ['filter' => 'authfilter']);
 $routes->get('/home/mhs/detailbuku/(:any)', 'Home::mhs_detailbuku/$1', ['filter' => 'authfilter']);
