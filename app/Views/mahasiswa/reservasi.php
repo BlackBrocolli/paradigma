@@ -11,9 +11,9 @@
                     <!-- tampilkan info jika ada -->
                     <div class="d-flex justify-content-center">
                         <div class="mx-auto">
-                            <?php if (!empty(session()->getFlashdata('info'))) : ?>
+                            <?php if (!empty(session()->getFlashdata('infotgl'))) : ?>
                                 <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                                    <?php echo session()->getFlashdata('info'); ?>
+                                    <?php echo session()->getFlashdata('infotgl'); ?>
                                 </div>
                             <?php endif; ?>
                         </div>

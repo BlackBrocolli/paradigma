@@ -64,10 +64,10 @@ class Reservasi extends BaseController
         // tanggal tidak boleh kosong
         if ($tanggal == '') {
             return redirect()->to('/home/mhs/tglreservasi/' . $id_buku . '/' . $indeks_buku)
-                ->with('info', 'Tanggal tidak boleh kosong!');
+                ->with('infotgl', 'Tanggal tidak boleh kosong!');
         } else if (strtotime($tanggal) < strtotime('now')) { // tidak boleh reservasi di masa lalu
             return redirect()->to('/home/mhs/tglreservasi/' . $id_buku . '/' . $indeks_buku)
-                ->with('info', 'Maaf, reservasi maksimal 1 hari sebelumnya.');
+                ->with('infotgl', 'Maaf, reservasi maksimal 1 hari sebelumnya.');
         }
 
         // proses reservasi
