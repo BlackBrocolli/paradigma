@@ -109,6 +109,10 @@ $routes->post('/absensi/input', 'Absensi::input');
 
 // for debugging
 $routes->get('/home/debugging', 'Home::debugging', ['filter' => 'authfilter']);
+
+// history
+$routes->get('home/mhs/history','History::index');
+
 /*
  * --------------------------------------------------------------------
  * Additional Routing
