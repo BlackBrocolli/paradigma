@@ -66,7 +66,7 @@
 
         <!-- Nav Item - pengunjung -->
         <li class="nav-item">
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="<?= base_url('/home/presensi'); ?>">
                 <i class="fas fa-fw fa-user"></i>
                 <span>Pengunjung</span></a>
         </li>

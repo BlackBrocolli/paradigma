@@ -65,7 +65,7 @@ $routes->get('home/deleteebook/(:any)', 'Ebook::deleteebook/$1', ['filter' => 'a
 $routes->post('home/deleteebook/(:any)', 'Ebook::deleteebook/$1', ['filter' => 'authfilter']);
 $routes->get('home/editebook/(:any)', 'Ebook::editebook/$1', ['filter' => 'authfilter']);
 $routes->post('home/updateebook/(:any)', 'Ebook::updateebook/$1', ['filter' => 'authfilter']);
-$routes->get('/home/history/bacaebook', 'Ebook::bacaebook', ['filter' => 'authfilter']);
+$routes->get('/home/mhs/bacaebook/(:any)', 'Ebook::bacaebook/$1', ['filter' => 'authfilter']);
 // home/dashboard/tugas akhir
 $routes->get('/home/tugasakhir', 'TugasAkhir::index', ['filter' => 'authfilter']);
 $routes->get('/home/addtugasakhir', 'TugasAkhir::addtugasakhir', ['filter' => 'authfilter']);
@@ -105,15 +105,18 @@ $routes->get('/home/mhs/detailbuku/(:any)', 'Home::mhs_detailbuku/$1', ['filter'
 $routes->get('/home/mhs/ebook', 'Home::mhs_ebook', ['filter' => 'authfilter']);
 $routes->get('/home/mhs/ebook/detail/(:any)', 'Home::mhs_detail_ebook/$1', ['filter' => 'authfilter']);
 $routes->get('/home/mhs/history', 'Home::mhs_history', ['filter' => 'authfilter']);
+$routes->get('/home/mhs/profil', 'Home::mhs_profil', ['filter' => 'authfilter']);
+$routes->post('/home/mhs/gantiPassword', 'Home::mhs_ganti_password',['filter' => 'authfilter']);
+
+// mahasiswa ebook
+$routes->post('/home/mhs/pinjamebook/(:any)', 'Ebook::pinjamebook/$1');
+
 // absensi
 $routes->get('/absensi', 'Absensi::index');
 $routes->post('/absensi/input', 'Absensi::input');
 
 // for debugging
 $routes->get('/home/debugging', 'Home::debugging', ['filter' => 'authfilter']);
-
-// history
-$routes->get('home/mhs/history', 'History::index');
 
 /*
  * --------------------------------------------------------------------

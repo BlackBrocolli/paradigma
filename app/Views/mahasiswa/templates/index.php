@@ -18,6 +18,10 @@
     <!-- untuk datepicker pada modal reservasi -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/css/bootstrap-datepicker.css">
 
+    <!-- Datatables -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/datetime/1.2.0/css/dataTables.dateTime.min.css">
+
     <style type="text/css">
         /** Style untuk membuat modal ada di center screen */
         .modal {
@@ -58,10 +62,10 @@
                 <!-- profile & logout -->
                 <form class="d-flex">
                     <div class="nav-item dropdown border border-primary rounded">
-                        <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Mahasiswa 1</a>
+                        <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><?= session()->get('name') ?></a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <li>
-                                <a class="dropdown-item" href="#!">
+                                <a class="dropdown-item" href="/home/mhs/profil">
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                     My Profile
                                 </a>
@@ -128,6 +132,26 @@
         </div>
     </div>
 
+    <!-- Modal -->
+    <div class="modal fade" id="modalInfo" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <?php if(session()->getFlashdata('info')) : ?>
+                <?= session()->getFlashdata('info') ?>
+            <?php endif; ?>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+        </div>
+    </div>
+</div>
+
     <!-- Bootstrap core JS-->
     <script src="<?= base_url(); ?>/vendor/jquery/jquery.min.js"></script>
     <script src="<?= base_url(); ?>/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -141,6 +165,29 @@
         $('.datepicker').datepicker({
             format: 'mm/dd/yyyy',
         });
+    </script>
+
+    <!-- DataTables -->
+    <script src="https://code.jquery.com/jquery-3.6.3.js"integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM="crossorigin="anonymous"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.2/moment.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/datetime/1.2.0/js/dataTables.dateTime.min.js"></script>
+    <script>
+        $(document).ready(function() {    
+            // DataTables initialisation
+            var table = $('#example').DataTable();
+        });
+
+        $(document).ready(function() {    
+            // DataTables initialisation
+            var table = $('#example2').DataTable();
+        });
+
+        <?php if(session()->getFlashData('info')) : ?>
+        $(document).ready(function(){
+             $("#modalInfo").modal('show');
+         });
+        <?php endif; ?>
     </script>
 </body>
 
