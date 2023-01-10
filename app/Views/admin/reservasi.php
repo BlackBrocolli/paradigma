@@ -45,7 +45,7 @@
                         <td id="status"><?php echo $row->status; ?></td>
                         <td>
                             <?php if ($row->status == 'menunggu...') : ?>
-                                <a title="Reservasi selesai" class="btn btn-success" href="<?= base_url(); ?>/home/editreservasi/<?= $row->id_reservasi; ?>"><i class="fas fa-fw fa-check" style="margin: -4px"></i></a>
+                                <a title="Reservasi selesai" class="btn btn-success" href="<?= base_url(); ?>/home/reservasi/selesai/<?= $row->nrp; ?>/<?= $row->indeks_buku; ?>/<?= $row->id_reservasi; ?>"><i class="fas fa-fw fa-check" style="margin: -4px"></i></a>
                             <?php endif; ?>
                         </td>
 
