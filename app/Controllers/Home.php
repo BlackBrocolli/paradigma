@@ -24,10 +24,13 @@ class Home extends BaseController
 
     public function index_mhs()
     {
+        if (session()->get('level') !== 'anggota') { // jika bukan admin
+            return redirect()->to(base_url('login'));
+        }
         $buku = new BukuModel();
 
         if ($this->request->getGet("cari")) {
-            $data['buku'] = $buku->like('judul', $this->request->getGet("cari"), 'both')->orLike('penulis', $this->request->getGet("cari"), 'both')->orLike('penerbit', $this->request->getGet("cari"), 'both')->orderBy('judul', 'asc')->findAll();
+            $data['buku'] = $buku->where('deleted_at ', null)->like('judul', $this->request->getGet("cari"), 'both')->orLike('penulis', $this->request->getGet("cari"), 'both')->orLike('penerbit', $this->request->getGet("cari"), 'both')->orderBy('judul', 'asc')->findAll();
         } else {
             $data['buku'] = $buku->orderBy('judul', 'asc')->findAll();
         }
@@ -38,6 +41,10 @@ class Home extends BaseController
 
     public function mhs_detailbuku($id)
     {
+        if (session()->get('level') !== 'anggota') { // jika bukan admin
+            return redirect()->to(base_url('login'));
+        }
+
         $bukuModel = new BukuModel();
         $copyBukuModel = new CopyBukuModel();
 
@@ -50,10 +57,13 @@ class Home extends BaseController
 
     public function mhs_ebook()
     {
+        if (session()->get('level') !== 'anggota') { // jika bukan admin
+            return redirect()->to(base_url('login'));
+        }
         $ebook = new EbookModel();
 
         if ($this->request->getGet("cari")) {
-            $data['ebook'] = $ebook->like('judul_ebook', $this->request->getGet("cari"), 'both')->orLike('penulis', $this->request->getGet("cari"), 'both')->orderBy('judul_ebook', 'asc')->findAll();
+            $data['ebook'] = $ebook->where('deleted_at ', null)->like('judul_ebook', $this->request->getGet("cari"), 'both')->orLike('penulis', $this->request->getGet("cari"), 'both')->orderBy('judul_ebook', 'asc')->findAll();
         } else {
             $data['ebook'] = $ebook->orderBy('judul_ebook', 'asc')->findAll();
         }
@@ -64,6 +74,9 @@ class Home extends BaseController
 
     public function mhs_detail_ebook($id)
     {
+        if (session()->get('level') !== 'anggota') { // jika bukan admin
+            return redirect()->to(base_url('login'));
+        }
         $ebook = new EbookModel();
         $peminjamanEbookModel = new PeminjamanEbookModel();
 
@@ -92,6 +105,9 @@ class Home extends BaseController
 
     public function readbuku()
     {
+        if (session()->get('level') !== 'anggota') { // jika bukan admin
+            return redirect()->to(base_url('login'));
+        }
         $data['title'] = 'Buku';
         $buku = new BukuModel();
 
