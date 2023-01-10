@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\EbookModel;
+use App\Models\PeminjamanEbookModel;
 
 class Ebook extends BaseController
 {
@@ -138,13 +139,50 @@ class Ebook extends BaseController
         return redirect()->to('/home/ebook')->with('info', 'Berhasil mengupdate data');
     }
 
-    public function bacaebook()
+    public function bacaebook($idPeminjaman)
     {
         if (session()->get('level') !== 'anggota') { // jika bukan admin
-            return redirect()->back();
+            return redirect()->to(base_url('login'));
         }
-        $data['title'] = "Baca ebook";
 
-        return view('mahasiswa/bacaebook', $data);
+        $peminjamanEbookModel = new PeminjamanEbookModel();
+        $dataPeminjaman = $peminjamanEbookModel->join('ebook', 'peminjaman_ebook.id_ebook = ebook.id_ebook')->find($idPeminjaman);
+
+        if($dataPeminjaman){
+            if($dataPeminjaman->tanggal_selesai > date('Y-m-d')){
+
+                $data['title'] = "Baca ebook";
+                $data['judulEbook'] = $dataPeminjaman->judul_ebook;
+                $data['ebook'] = $dataPeminjaman->path;
+                return view('mahasiswa/bacaebook', $data);
+            }else{
+                session()->setFlashdata('info', 'Anda tidak meminjam ebook');
+                return redirect()->to(base_url('home/mhs/history'));
+            }
+        }else{
+            session()->setFlashdata('info', 'Anda tidak meminjam ebook');
+            return redirect()->to(base_url('home/mhs/history'));
+        }
+    }
+
+    public function pinjamebook($idEbook){
+        if (session()->get('level') !== 'anggota') { // jika bukan admin
+            return redirect()->to(base_url('login'));
+        }
+
+        $peminjamanEbookModel = new PeminjamanEbookModel();
+        
+        $result = $peminjamanEbookModel->insert([
+            'tanggal_pinjam' => date('Y-m-d'),
+            'tanggal_selesai' => date('Y-m-d', strtotime("+7 days")),
+            'nrp' => session()->get('nrp'),
+            'id_ebook' => $idEbook
+        ]);
+
+        if($result !== false){
+            return redirect()->back()->with('info', 'Berhasil dipinjam');
+        }else{
+            return redirect()->back()->with('info', 'Gagal dipinjam');
+        }
     }
 }

@@ -9,7 +9,11 @@ class Login extends BaseController
     public function index()
     {
         if (session()->get('logged_in')) { // jika sudah login
-            return redirect()->to('/'); // kembali ke home
+            if(session()->get('level') == 'anggota'){
+                return redirect()->to(base_url('home/mhs'));
+            }else if(session()->get('level') == 'admin'){
+                return redirect()->to('/'); // kembali ke home
+            }
         }
         $data['title'] = 'Login';
         return view('auth/login_view', $data);

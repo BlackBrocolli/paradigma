@@ -3,7 +3,7 @@
 <?= $this->section('page-content'); ?>
 <!-- search input -->
 <div class="float-right">
-    <form class="form-inline" action="/home/mhs" method="get">
+    <form class="form-inline" action="/home/mhs/ebook" method="get">
         <div class="input-group">
             <input type="text" class="form-control" placeholder="Search..." name="cari">
             <div class="input-group-append">

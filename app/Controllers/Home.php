@@ -5,6 +5,9 @@ namespace App\Controllers;
 use App\Models\BukuModel;
 use App\Models\CopyBukuModel;
 use App\Models\EbookModel;
+use App\Models\PinjamModel;
+use App\Models\PeminjamanEbookModel;
+use App\Models\UsersModel;
 
 class Home extends BaseController
 {
@@ -50,7 +53,7 @@ class Home extends BaseController
         $ebook = new EbookModel();
 
         if ($this->request->getGet("cari")) {
-            $data['ebook'] = $ebook->like('judul_ebook', $this->request->getGet("cari"), 'both')->orLike('penulis', $this->request->getGet("cari"), 'both')->orderBy('judul', 'asc')->findAll();
+            $data['ebook'] = $ebook->like('judul_ebook', $this->request->getGet("cari"), 'both')->orLike('penulis', $this->request->getGet("cari"), 'both')->orderBy('judul_ebook', 'asc')->findAll();
         } else {
             $data['ebook'] = $ebook->orderBy('judul_ebook', 'asc')->findAll();
         }
@@ -62,16 +65,28 @@ class Home extends BaseController
     public function mhs_detail_ebook($id)
     {
         $ebook = new EbookModel();
+        $peminjamanEbookModel = new PeminjamanEbookModel();
 
         $data['ebook'] = $ebook->find($id);
         $data['title'] = 'Detail Ebook';
+        $data['isBorrowed'] = $peminjamanEbookModel->where(['id_ebook' => $id, 'nrp' => session()->get('nrp'), 'tanggal_selesai >' => date('Y-m-d')])->findAll();
 
         return view('mahasiswa/detailebook', $data);
     }
 
     public function mhs_history()
     {
-        $data['title'] = 'History';
+        if (session()->get('level') !== 'anggota') { // jika bukan admin
+            return redirect()->to(base_url('login'));
+        }
+
+        $modelPeminjaman = new PinjamModel();
+        $peminjamanEbookModel = new PeminjamanEbookModel();
+
+        $data['title'] = 'Riwayat Peminjaman';
+        $data['peminjaman'] = $modelPeminjaman->select('peminjaman.*, buku.judul')->join('copy_buku', 'peminjaman.indeks_buku = copy_buku.indeks_buku')->join('buku', 'copy_buku.id_buku = buku.id_buku')->where('nrp', session()->get('nrp'))->findAll();
+        $data['pinjam_ebook'] = $peminjamanEbookModel->join('ebook', 'peminjaman_ebook.id_ebook = ebook.id_ebook')->where('nrp', session()->get('nrp'))->findAll();
+
         return view('mahasiswa/history', $data);
     }
 
@@ -184,7 +199,7 @@ class Home extends BaseController
     public function editbuku($id_buku)
     {
         if (session()->get('level') !== 'admin') { // jika bukan admin
-            return redirect()->back();
+            return redirect()->to(base_url('login'));
         }
 
         $data['title'] = 'Update buku';
@@ -220,15 +235,71 @@ class Home extends BaseController
             ->with('info', 'Berhasil mengupdate data');
     }
 
-    public function myprofile()
-    {
-        $data['title'] = 'Update buku';
-        return view('user/myprofile', $data);
-    }
-
     public function debugging()
     {
         $data['title'] = 'Debugging';
         return view('index.php', $data);
+    }
+
+    public function mhs_profil(){
+        if (session()->get('level') !== 'anggota') { // jika bukan admin
+            return redirect()->to(base_url('login'));
+        }
+
+        $data['title'] = "Profil";
+
+        return view('mahasiswa/profil', $data);
+    }
+
+    public function mhs_ganti_password(){
+        if (session()->get('level') !== 'anggota') { // jika bukan admin
+            return redirect()->to(base_url('login'));
+        }
+
+        $usersModel = new UsersModel();
+
+        if (!$this->validate([
+            'passwordLama' => [
+                'rules' => 'required',
+                'errors' => [
+                    'required' => 'Password lama harus diisi',
+                ]
+            ],
+
+            'passwordBaru' => [
+                'rules' => 'required',
+                'errors' => [
+                    'required' => 'Password baru harus diisi'
+                ]
+            ],
+            'repasswordBaru' => [
+                'rules' => 'required|matches[passwordBaru]',
+                'errors' => [
+                    'required' => 'Input password ulang harus diisi',
+                    'matches' => 'Konfirmasi Password tidak sesuai dengan password',
+                ]
+            ],
+        ])) {
+            session()->setFlashdata('errors', $this->validator->listErrors());
+            return redirect()->back()->withInput()->with('errors', $usersModel->errors());
+        }
+
+        $dataUser = $usersModel->where('email', session()->get('email'))->first();
+
+        if($dataUser){
+            $password = $this->request->getPost('passwordLama');
+            if(password_verify($password, $dataUser->password)){
+                $result = $usersModel->where('nrp', session()->get('nrp'))->set(['password' => password_hash($this->request->getPost('passwordBaru'), PASSWORD_BCRYPT),])->update();
+
+                if($result !== false){
+                    return redirect()->back()->with('info', 'Berhasil mengupdate password');
+                }else{
+                    return redirect()->back()->with('info', 'Gagal mengupdate password');
+                }
+            }else{
+                session()->setFlashdata('info', 'Password yang Anda masukkan salah');
+                return redirect()->to(base_url('home/mhs/profil'));
+            }
+        }
     }
 }
