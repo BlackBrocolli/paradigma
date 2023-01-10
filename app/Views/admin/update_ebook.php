@@ -35,6 +35,10 @@
                     <input class="form-control" type="number" value="<?= $ebook->halaman; ?>" name="halaman">
                 </div>
                 <div class="mb-3">
+                    <label for="exampleFormControlInput1" class="form-label">Deskripsi Singkat</label>
+                    <textarea class="form-control" id="floatingTextarea" name="deskripsi"><?= $ebook->deskripsi ?></textarea>
+                </div>
+                <div class="mb-3">
                     <label for="sampul">Cover</label><br>
                     <input type="file" name="sampul" class="form-control" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload">
                 </div>
