@@ -39,7 +39,7 @@
                 </div>
                 <div class="mb-3">
                     <label for="exampleFormControlInput1" class="form-label">Stok</label>
-                    <input class="form-control" type="text" value="<?= $edit->stok; ?>" name="stok">
+                    <input class="form-control" type="text" value="<?= $edit->stok; ?>" name="stok" readonly>
                 </div>
                 <div class="mb-3">
                     <label for="exampleFormControlInput1" class="form-label">Deskripsi Singkat</label>
