@@ -119,12 +119,20 @@ class Member extends BaseController
     public function updateanggota($kode_anggota)
     {
         $anggota = new AnggotaModel();
+        $users = new UsersModel();
 
         $result = $anggota->update($kode_anggota, [
             'nama' => $this->request->getPost("nama_anggota")
         ]);
 
-        return redirect()->to('/home/anggota')
-            ->with('info', 'Berhasil mengupdate data');
+        if($result !== false){
+            $dataAnggota = $anggota->find($kode_anggota);
+            $result = $users->where('nrp', $dataAnggota->nrp)->set(['name' => $this->request->getPost("nama_anggota")])->update();
+            return redirect()->to('/home/anggota')->with('info', 'Berhasil mengupdate data');
+        }else{
+            return redirect()->back()->with('errors', $anggota->errors());
+        }
+
+        
     }
 }

@@ -121,22 +121,28 @@ class Ebook extends BaseController
         }
 
         if ($cover->getError() == 4) {
-            $coverName = $this->request->getPost("sampulLama");
+            $coverName = $this->request->getPost("coverLama");
         } else {
             $coverName = $cover->getRandomName();
             unlink('cover_ebook/' . $this->request->getPost("coverLama"));
             $cover->move('cover_ebook', $coverName);
         }
 
+        
         $result = $ebookModel->update($id, [
             'judul_ebook' => $this->request->getPost('judul_ebook'),
             'path' => $fileName,
             'penulis' => $this->request->getPost('penulis'),
             'halaman' => $this->request->getPost('halaman'),
-            'cover' => $coverName
+            'deskripsi' => $this->request->getPost('deskripsi'),
+            'cover' => $coverName            
         ]);
 
-        return redirect()->to('/home/ebook')->with('info', 'Berhasil mengupdate data');
+        if($result !== false){
+            return redirect()->to('/home/ebook')->with('info', 'Berhasil mengupdate data');
+        }else{
+            return redirect()->back()->with('errors', $ebookModel->errors());
+        }
     }
 
     public function bacaebook($idPeminjaman)
