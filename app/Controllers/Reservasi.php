@@ -18,7 +18,7 @@ class Reservasi extends BaseController
 
         $reservasiModel = new ReservasiModel();
 
-        $data['reservasi'] = $reservasiModel->orderBy('tanggal_reservasi', 'desc');
+        $data['reservasi'] = $reservasiModel->orderBy('tanggal_reservasi', 'desc')->findAll();
 
         $data['title'] = 'Reservasi';
 
