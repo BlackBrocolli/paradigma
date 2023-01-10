@@ -97,6 +97,8 @@ $routes->post('/home/editstatus/(:any)/(:any)', 'Pinjam::editstatus/$1/$2', ['fi
 $routes->get('/home/reservasi', 'Reservasi::index', ['filter' => 'authfilter']);
 $routes->post('/home/mhs/reservasi', 'Reservasi::process', ['filter' => 'authfilter']);
 $routes->get('/home/mhs/tglreservasi/(:any)/(:any)', 'Reservasi::tglreservasi/$1/$2', ['filter' => 'authfilter']);
+$routes->get('/home/reservasi/selesai/(:any)/(:any)/(:any)', 'Reservasi::confirmselesai/$1/$2/$3', ['filter' => 'authfilter']);
+$routes->post('/home/reservasi/selesai/(:any)/(:any)/(:any)', 'Reservasi::confirmselesai/$1/$2/$3', ['filter' => 'authfilter']);
 // mahasiswa punya
 $routes->get('/home/mhs', 'Home::index_mhs', ['filter' => 'authfilter']);
 $routes->get('/home/mhs/detailbuku/(:any)', 'Home::mhs_detailbuku/$1', ['filter' => 'authfilter']);
@@ -111,7 +113,7 @@ $routes->post('/absensi/input', 'Absensi::input');
 $routes->get('/home/debugging', 'Home::debugging', ['filter' => 'authfilter']);
 
 // history
-$routes->get('home/mhs/history','History::index');
+$routes->get('home/mhs/history', 'History::index');
 
 /*
  * --------------------------------------------------------------------
